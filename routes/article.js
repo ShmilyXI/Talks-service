@@ -36,4 +36,32 @@ router.get('/latest-list', function (ctx, next) {
   };
 });
 
+router.get('/top-contributor-list', function (ctx, next) {
+  ctx.body = {
+    retCode: 0,
+    total: 10,
+    list: new Array(Number(10)).fill(null).map((_, index) => ({
+      avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
+      link: '/link',
+      name: `${index + 1}-Test author`,
+      answerCount: index,
+    })),
+  };
+});
+
+router.get('/unanswered-talk-list', function (ctx, next) {
+  ctx.body = {
+    retCode: 0,
+    total: 5,
+    list: new Array(Number(5)).fill(null).map((_, index) => ({
+      avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
+      articleTitle:`${index+1}-ArticleTitle`,
+      articleLink: '/link',
+      author: 'Test author',
+      authorLink: '/authorLink',
+      answerCount: 0,
+    })),
+  };
+});
+
 module.exports = router;
