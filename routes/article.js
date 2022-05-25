@@ -13,7 +13,7 @@ router.get('/latest-list', function (ctx, next) {
       title: `${
         index + 1
       }-Long live Tookapic 💪 The announcement of the new owner 🎉`,
-      link: '/link',
+      link: '/link' + index,
       author: 'Test author',
       authorLink: '/authorLink',
       date: 'Feb 21st, 2022',
@@ -42,7 +42,7 @@ router.get('/top-contributor-list', function (ctx, next) {
     total: 10,
     list: new Array(Number(10)).fill(null).map((_, index) => ({
       avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
-      link: '/link',
+      link: '/link' + index,
       name: `${index + 1}-Test author`,
       answerCount: index,
     })),
@@ -55,8 +55,8 @@ router.get('/unanswered-talk-list', function (ctx, next) {
     total: 5,
     list: new Array(Number(5)).fill(null).map((_, index) => ({
       avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
-      articleTitle:`${index+1}-ArticleTitle`,
-      articleLink: '/link',
+      articleTitle: `${index + 1}-ArticleTitle`,
+      articleLink: '/link' + index,
       author: 'Test author',
       authorLink: '/authorLink',
       answerCount: 0,
