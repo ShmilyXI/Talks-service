@@ -12,7 +12,7 @@ router.post('/gallery-photo-list', function (ctx, next) {
     '#' +
     ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6);
   ctx.body = {
-    retCode: 0,
+    code: '0',
     total: 5,
     list: new Array(Number(70)).fill(null).map((_, index) => {
       const width = 400 + getRandomIntInclusive(20, 500);
@@ -41,7 +41,7 @@ router.post('/gallery-photo-list', function (ctx, next) {
 
 router.get('/photo-detail-info', function (ctx, next) {
   ctx.body = {
-    retCode: 0,
+    code: '0',
     data: {
       id: '1',
       authorName: 'authorName',
@@ -136,7 +136,7 @@ router.get('/photo-detail-info', function (ctx, next) {
 
 router.get('/photo-detail-comments', function (ctx, next) {
   ctx.body = {
-    retCode: 0,
+    code: '0',
     total: 5,
     list: [
       {
@@ -308,7 +308,7 @@ router.get('/photo-detail-comments', function (ctx, next) {
 
 router.get('/photo-milestone-list', function (ctx, next) {
   ctx.body = {
-    retCode: 0,
+    code: '0',
     total: 5,
     list: [
       {
