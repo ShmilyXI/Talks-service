@@ -21,8 +21,9 @@ app.use(async (ctx, next) => {
     if (err.status === 401) {
       ctx.status = 401;
       ctx.body = {
-        code: '-2000',
-        desc: '登陆过期，请重新登陆',
+        type: 'warning',
+        code: '-3',
+        message: '登陆过期，请重新登陆',
       };
     } else {
       throw err;
