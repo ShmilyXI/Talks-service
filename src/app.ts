@@ -1,16 +1,21 @@
-const Koa = require('koa');
-const app = new Koa();
+import Koa from 'koa'; // 导入koa
+import path from 'path';
+import logger from 'koa-logger'; // 导入日志
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
-const logger = require('koa-logger');
 const koajwt = require('koa-jwt');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 const talk = require('./routes/talk');
 const browse = require('./routes/browse');
+
+const app = new Koa();
+
+const staticPath = path.join(__dirname, '../public'); // 静态地址
+const viewsPath = path.join(__dirname, '../views'); // 模板地址
 
 // error handler
 onerror(app);
@@ -45,31 +50,32 @@ app.use(
 );
 app.use(json());
 app.use(logger());
-app.use(require('koa-static')(__dirname + '/public'));
+app.use(require('koa-static')(staticPath));
 
 app.use(
-  views(__dirname + '/views', {
-    extension: 'ejs',
+  views(viewsPath, {
+    extension: 'pug',
   }),
 );
 
 // logger
 app.use(async (ctx, next) => {
-  const start = new Date();
+  const start = new Date().getTime();
   await next();
-  const ms = new Date() - start;
+  const ms = new Date().getTime() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
 // routes
-app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
-app.use(talk.routes(), talk.allowedMethods());
-app.use(browse.routes(), browse.allowedMethods());
+app.use(index.routes());
+app.use(users.routes());
+app.use(talk.routes());
+app.use(browse.routes());
 
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx);
 });
 
-module.exports = app;
+// module.exports = app;
+export default app;

@@ -1,0 +1,10 @@
+{
+  "restartable": "rs",
+  "verbose": true,
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["node_modules/**/node_modules"],
+  "execMap": {
+    "js": "node --harmony"
+  }
+}

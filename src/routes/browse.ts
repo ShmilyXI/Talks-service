@@ -1,8 +1,9 @@
-const router = require('koa-router')();
+import Router from 'koa-router';
+const router = new Router();
 
 router.prefix('/browse');
 
-router.post('/gallery-photo-list', function (ctx, next) {
+router.post('/gallery-photo-list', function (ctx:any) {
   function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -39,7 +40,7 @@ router.post('/gallery-photo-list', function (ctx, next) {
   };
 });
 
-router.get('/photo-detail-info', function (ctx, next) {
+router.get('/photo-detail-info', function (ctx:any) {
   ctx.body = {
     code: '0',
     data: {
@@ -134,7 +135,7 @@ router.get('/photo-detail-info', function (ctx, next) {
   };
 });
 
-router.get('/photo-detail-comments', function (ctx, next) {
+router.get('/photo-detail-comments', function (ctx:any) {
   ctx.body = {
     code: '0',
     total: 5,
@@ -306,7 +307,7 @@ router.get('/photo-detail-comments', function (ctx, next) {
   };
 });
 
-router.get('/photo-milestone-list', function (ctx, next) {
+router.get('/photo-milestone-list', function (ctx:any) {
   ctx.body = {
     code: '0',
     total: 5,

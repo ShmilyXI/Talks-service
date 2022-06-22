@@ -1,4 +1,5 @@
-const router = require('koa-router')()
+import Router from 'koa-router';
+const router = new Router();
 
 // 用户
 const UserController = require('../controller/UserController')

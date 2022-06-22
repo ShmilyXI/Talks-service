@@ -16,8 +16,4 @@ const checkPassword = (password) => {
   return regExp.test(password);
 };
 
-module.exports = {
-  checkName,
-  checkTel,
-  checkPassword,
-};
+export { checkName, checkTel, checkPassword };

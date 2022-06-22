@@ -1,17 +1,18 @@
-const User = require('../model/userModel');
-const Check = require('../utils/regExp');
+// const User = require('../model/userModel');
+import User from '../model/userModel';
 //引入jwt做token验证
 const jwt = require('jsonwebtoken');
 
+const Check = require('../utils/regExp');
 //解析token
-const tools = require('../public/tool');
+const tools = require('../utils/tool');
 
-//统一设置token有效时间 
-const expireTime = '8h';
+//统一设置token有效时间
+const expireTime = '999h';
 
 class UserController {
   // 用户注册
-  async register(ctx) {
+  async register(ctx: any) {
     let { name, telephone, password } = ctx.request.body;
 
     if (!Check.checkName(name))
@@ -58,7 +59,7 @@ class UserController {
     ctx.body = { type: 'success', code: '0', message: '注册成功' };
   }
   // 登录
-  async login(ctx) {
+  async login(ctx: any) {
     let telephone = ctx.request.body.telephone;
     let password = ctx.request.body.password;
 
@@ -96,9 +97,7 @@ class UserController {
         };
         ctx.body = {
           code: '0',
-          data: {
-            userInfo,
-          },
+          data: userInfo,
           token,
           message: '登录成功',
           type: 'success',
@@ -115,7 +114,7 @@ class UserController {
     }
   }
   //获取用户信息
-  async getUserInfo(ctx) {
+  async getUserInfo(ctx: any) {
     const req = ctx.query;
     const token = ctx.headers.authorization;
     if (token) {
@@ -137,7 +136,7 @@ class UserController {
           };
           return (ctx.body = {
             code: '0',
-            data: { userInfo },
+            data: userInfo,
             message: '获取用户信息成功',
           });
         }
