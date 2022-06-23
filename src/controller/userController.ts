@@ -1,11 +1,9 @@
-// const User = require('../model/userModel');
 import User from '../model/userModel';
 //引入jwt做token验证
-const jwt = require('jsonwebtoken');
-
-const Check = require('../utils/regExp');
+import jwt from 'jsonwebtoken';
+import check from '../utils/regExp';
 //解析token
-const tools = require('../utils/tool');
+import tools from '../utils/tool';
 
 //统一设置token有效时间
 const expireTime = '999h';
@@ -15,21 +13,21 @@ class UserController {
   async register(ctx: any) {
     let { name, telephone, password } = ctx.request.body;
 
-    if (!Check.checkName(name))
+    if (!check.checkName(name))
       return (ctx.body = {
         type: 'warning',
         code: '-1',
         message: '用户名格式错误',
       });
 
-    if (!Check.checkTel(telephone))
+    if (!check.checkTel(telephone))
       return (ctx.body = {
         type: 'warning',
         code: '-1',
         message: '手机号码格式错误',
       });
 
-    if (!Check.checkPassword(password))
+    if (!check.checkPassword(password))
       return (ctx.body = {
         type: 'warning',
         code: '-1',
@@ -56,21 +54,25 @@ class UserController {
     }
 
     await User.insert(name, telephone, password);
+    const id = (await User.getTelephone(telephone))[0]?.id;
+    if (id) await User.setTime(id, 'create');
+
     ctx.body = { type: 'success', code: '0', message: '注册成功' };
   }
+
   // 登录
   async login(ctx: any) {
     let telephone = ctx.request.body.telephone;
     let password = ctx.request.body.password;
 
-    if (!Check.checkTel(telephone))
+    if (!check.checkTel(telephone))
       return (ctx.body = {
         type: 'warning',
         code: '-1',
         message: '手机号码格式错误',
       });
 
-    if (!Check.checkPassword(password))
+    if (!check.checkPassword(password))
       return (ctx.body = {
         type: 'warning',
         code: '-1',
@@ -95,6 +97,7 @@ class UserController {
           name: res.name,
           telephone: res.telephone,
         };
+        await User.setTime(res.id, 'last_login');
         ctx.body = {
           code: '0',
           data: userInfo,
@@ -113,6 +116,7 @@ class UserController {
       ctx.body = { type: 'error', code: '-2', message: '手机号码不存在' };
     }
   }
+
   //获取用户信息
   async getUserInfo(ctx: any) {
     const req = ctx.query;
