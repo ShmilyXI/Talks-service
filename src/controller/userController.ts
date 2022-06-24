@@ -37,7 +37,7 @@ class UserController {
     const names = await User.getUser(name); //用户名是否重复
     const tels = await User.getTelephone(telephone); //手机号是否重复
 
-    if (tels.length > 0) {
+    if (tels?.length > 0) {
       return (ctx.body = {
         type: 'error',
         code: '-2',
@@ -45,7 +45,7 @@ class UserController {
       });
     }
 
-    if (names.length > 0) {
+    if (names?.length > 0) {
       return (ctx.body = {
         type: 'error',
         code: '-2',

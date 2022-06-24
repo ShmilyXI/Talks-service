@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 const router = new Router();
 
-router.prefix('/browse');
+router.prefix('/photo');
 
 router.post('/gallery-photo-list', function (ctx:any) {
   function getRandomIntInclusive(min, max) {

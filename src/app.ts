@@ -10,7 +10,7 @@ const koajwt = require('koa-jwt');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const talk = require('./routes/talk');
-const browse = require('./routes/browse');
+const photo = require('./routes/photo');
 
 const app = new Koa();
 
@@ -70,7 +70,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes());
 app.use(users.routes());
 app.use(talk.routes());
-app.use(browse.routes());
+app.use(photo.routes());
 
 // error-handling
 app.on('error', (err, ctx) => {
