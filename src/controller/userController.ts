@@ -1,163 +1,166 @@
-import User from '../model/userModel';
+import {
+  JsonController,
+  Body,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Ctx,
+  QueryParams,
+} from 'routing-controllers';
+
 //引入jwt做token验证
 import jwt from 'jsonwebtoken';
 import check from '../utils/regExp';
 //解析token
 import tools from '../utils/tool';
+import { setTime } from '../utils/util';
+import { Context } from 'koa';
+import UserModel from '../model/UserModel';
+import * as UserTypes from '../types/UserTypes';
 
 //统一设置token有效时间
 const expireTime = '999h';
 
-class UserController {
+@JsonController('/user')
+export default class UserController {
   // 用户注册
-  async register(ctx: any) {
-    let { name, telephone, password } = ctx.request.body;
+  @Post('/register')
+  async register(
+    @Body() data: UserTypes.RegisterRequest,
+  ): Promise<UserTypes.RegisterResponse> {
+    let { name, telephone, password } = data || {};
 
     if (!check.checkName(name))
-      return (ctx.body = {
-        type: 'warning',
+      return {
         code: '-1',
         message: '用户名格式错误',
-      });
+      };
 
     if (!check.checkTel(telephone))
-      return (ctx.body = {
-        type: 'warning',
+      return {
         code: '-1',
         message: '手机号码格式错误',
-      });
+      };
 
     if (!check.checkPassword(password))
-      return (ctx.body = {
-        type: 'warning',
+      return {
         code: '-1',
         message: '密码格式错误',
-      });
+      };
 
-    const names = await User.getUser(name); //用户名是否重复
-    const tels = await User.getTelephone(telephone); //手机号是否重复
+    const names = await UserModel.getUser(name); //用户名是否重复
+    const tels = await UserModel.getTelephone(telephone); //手机号是否重复
 
     if (tels?.length > 0) {
-      return (ctx.body = {
-        type: 'error',
+      return {
         code: '-2',
         message: '该手机号已注册',
-      });
+      };
     }
 
     if (names?.length > 0) {
-      return (ctx.body = {
-        type: 'error',
+      return {
         code: '-2',
         message: '用户名已存在',
-      });
+      };
     }
 
-    await User.insert(name, telephone, password);
-    const id = (await User.getTelephone(telephone))[0]?.id;
-    if (id) await User.setTime(id, 'create');
+    await UserModel.insert(name, telephone, password);
+    const id = (await UserModel.getTelephone(telephone))[0]?.id;
+    if (id) await setTime(id, 'create');
 
-    ctx.body = { type: 'success', code: '0', message: '注册成功' };
+    return { code: '0', message: '注册成功' };
   }
 
   // 登录
-  async login(ctx: any) {
-    let telephone = ctx.request.body.telephone;
-    let password = ctx.request.body.password;
-
+  @Post('/login')
+  async login(
+    @Body() data: UserTypes.LoginRequest,
+  ): Promise<UserTypes.LoginResponse> {
+    let telephone = data.telephone;
+    let password = data.password;
+    console.log('password', password);
     if (!check.checkTel(telephone))
-      return (ctx.body = {
-        type: 'warning',
+      return {
         code: '-1',
         message: '手机号码格式错误',
-      });
+      };
 
     if (!check.checkPassword(password))
-      return (ctx.body = {
-        type: 'warning',
+      return {
         code: '-1',
         message: '密码格式错误',
-      });
+      };
 
-    const res = (await User.getTelephone(telephone))[0];
+    const res = (await UserModel.getTelephone(telephone))?.[0];
     if (res) {
-      if (res.password === password) {
+      if (res?.password === password) {
         //生成token，验证登录有效期
         const token = jwt.sign(
           {
-            id: res.id,
+            id: res?.id,
             telephone,
             password,
           },
           '126226',
           { expiresIn: expireTime },
         );
-        const userInfo = {
-          id: res.id,
-          name: res.name,
-          telephone: res.telephone,
-        };
-        await User.setTime(res.id, 'last_login');
-        ctx.body = {
+        await setTime(res.id, 'last_login');
+        return {
           code: '0',
-          data: userInfo,
           token,
           message: '登录成功',
-          type: 'success',
         };
       } else {
-        ctx.body = {
-          type: 'error',
+        return {
           code: '-2',
           message: '手机号码或密码不正确',
         };
       }
     } else {
-      ctx.body = { type: 'error', code: '-2', message: '手机号码不存在' };
+      return { code: '-2', message: '手机号码不存在' };
     }
   }
 
   //获取用户信息
-  async getUserInfo(ctx: any) {
-    const req = ctx.query;
+  @Get('/get-user-info')
+  async getUserInfo(
+    @Ctx() ctx: Context,
+    @QueryParams() data: UserTypes.GetUserInfoRequest,
+  ): Promise<UserTypes.GetUserInfoResponse> {
+    const req = data;
     const token = ctx.headers.authorization;
     if (token) {
       try {
         // 校验token
         await tools.verToken(token);
         if (!req.id) {
-          return (ctx.body = {
+          return {
             code: '-1',
             message: '参数错误',
-          });
-        }
-        let data = (await User.getUserInfo(req.id))[0];
-        if (+req.id === data.id) {
-          const userInfo = {
-            id: data.id,
-            name: data.name,
-            telephone: data.telephone,
           };
-          return (ctx.body = {
-            code: '0',
-            data: userInfo,
-            message: '获取用户信息成功',
-          });
         }
+        const data = (await UserModel.getUserInfo(req.id))?.[0] || {};
+        return {
+          code: '0',
+          data,
+          message: '获取用户信息成功',
+        };
       } catch (error) {
         ctx.status = 401;
-        return (ctx.body = {
+        return {
           code: '-1',
           message: '登陆过期，请重新登陆',
-        });
+        };
       }
     } else {
       ctx.status = 401;
-      return (ctx.body = {
+      return {
         code: '-1',
         message: '登陆过期，请重新登陆',
-      });
+      };
     }
   }
 }
-module.exports = new UserController();

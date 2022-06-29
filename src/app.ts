@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import Koa from 'koa'; // 导入koa
 import path from 'path';
 import logger from 'koa-logger'; // 导入日志
@@ -6,13 +7,15 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const koajwt = require('koa-jwt');
+import { createKoaServer, useContainer } from 'routing-controllers';
 
-const index = require('./routes/index');
-const users = require('./routes/users');
-const talk = require('./routes/talk');
-const photo = require('./routes/photo');
+import UserController from './controller/UserController';
+import PhotoController from './controller/PhotoController';
+import CommunityController from './controller/CommunityController';
 
-const app = new Koa();
+const app = createKoaServer({
+  controllers: [UserController, PhotoController, CommunityController], // we specify controllers we want to use
+});
 
 const staticPath = path.join(__dirname, '../public'); // 静态地址
 const viewsPath = path.join(__dirname, '../views'); // 模板地址
@@ -65,12 +68,6 @@ app.use(async (ctx, next) => {
   const ms = new Date().getTime() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
-
-// routes
-app.use(index.routes());
-app.use(users.routes());
-app.use(talk.routes());
-app.use(photo.routes());
 
 // error-handling
 app.on('error', (err, ctx) => {

@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 const router = new Router();
 
-router.prefix('/talk');
+router.prefix('/community');
 
 router.get('/latest-list', function (ctx, next) {
   ctx.body = {

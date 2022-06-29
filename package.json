@@ -12,29 +12,39 @@
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "dependencies": {
+    "@types/koa-bodyparser": "^4.3.7",
     "@types/koa-logger": "^3.1.2",
     "@types/koa-router": "^7.4.4",
     "@types/koa-views": "^7.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "debug": "^4.1.1",
     "ejs": "~2.3.3",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
-    "koa-bodyparser": "^4.2.1",
+    "koa-bodyparser": "^4.3.0",
     "koa-convert": "^1.2.0",
     "koa-cors": "^0.0.16",
     "koa-json": "^2.0.2",
     "koa-jwt": "^4.0.3",
     "koa-logger": "^3.2.0",
+    "koa-multer": "^1.0.2",
     "koa-onerror": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
     "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "routing-controllers": "^0.9.0",
     "ts-node": "^10.8.1",
     "tslint": "^6.1.3",
-    "typescript": "^4.7.4"
+    "typedi": "^0.10.0",
+    "typescript": "^4.7.4",
+    "xss": "^1.0.13"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/koa": "^2.13.4",
     "nodemon": "^2.0.16"
   }
 }

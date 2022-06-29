@@ -1,4 +1,5 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
@@ -13,6 +14,9 @@
     "isolatedModules": true,
     "outDir": "./build",
     "rootDir": "./src",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    // "sourceMap": true
   },
   "exclude": ["node_modules", "build"],
   "include": ["*.ts", "src/*.ts", "src/**/*.ts"]
