@@ -79,9 +79,7 @@ export default class UserController {
   async login(
     @Body() data: UserTypes.LoginRequest,
   ): Promise<UserTypes.LoginResponse> {
-    let telephone = data.telephone;
-    let password = data.password;
-    console.log('password', password);
+    const { telephone, password } = data || {};
     if (!check.checkTel(telephone))
       return {
         code: '-1',
@@ -111,6 +109,7 @@ export default class UserController {
         return {
           code: '0',
           token,
+          data: { id: res?.id },
           message: '登录成功',
         };
       } else {

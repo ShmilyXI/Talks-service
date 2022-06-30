@@ -28,4 +28,7 @@ export interface LoginRequest {
 }
 export interface LoginResponse extends common.Response {
   token?: string;
+  data?: {
+    id: number;
+  };
 }

@@ -1,31 +1,65 @@
 import { common } from './types';
-export interface BaseUserInfo {
+
+type ExifData = {
+  brand: string;
+  model: string;
+  aperture: string;
+  focalLength: string;
+  shutterSpeed: string;
+  iso: string;
+};
+export interface BasePhotoInfo {
   id: number;
-  name: string;
-  telephone: string;
-  avatar_url: string;
-  create_date: string;
-  update_date: string;
-  last_login_date: string;
+  userId: string;
+  commentId: number;
+  galleryId: number;
+  src: string;
+  width: number;
+  height: number;
+  title: string;
+  description: string;
+  viewCount: number;
+  themeColor: string;
+  place: string;
+  tags: string;
+  mood: string;
+  exifData: ExifData;
+  createDate: string;
+  updateDate: string;
 }
 
-export interface GetUserInfoRequest {
+export interface PhotoDetailInfoResponse extends common.Response {
+  data?: BasePhotoInfo;
+}
+export interface PhotoDetailInfoRequest {
   id: number;
 }
-export interface GetUserInfoResponse extends common.Response {
-  data?: BaseUserInfo;
-}
-export interface RegisterRequest {
-  name: string;
-  telephone: string;
-  password: string;
-}
-export interface RegisterResponse extends common.Response {}
 
-export interface LoginRequest {
-  telephone: string;
-  password: string;
+export interface GalleryPhotoItem {
+  id: number;
+  userId: string;
+  commentId: number;
+  galleryId: number;
+  src: string;
+  width: number;
+  height: number;
+  title: string;
+  description: string;
+  viewCount: number;
+  themeColor: string;
+  place: string;
+  tags: string;
+  updateDate: string;
+  authorName:string;
+  avatarUrl:string;
 }
-export interface LoginResponse extends common.Response {
-  token?: string;
+export interface GetGalleryPhotoListResponse extends common.Response {
+  data?: {
+    list: GalleryPhotoItem[];
+    total: number;
+  };
+}
+export interface GetGalleryPhotoListRequest {
+  pageIndex: number;
+  pageSize: number;
 }
