@@ -11,6 +11,8 @@ type ExifData = {
 export interface BasePhotoInfo {
   id: number;
   userId: string;
+  authorName: string;
+  avatarUrl: string;
   commentId: number;
   galleryId: number;
   src: string;
@@ -21,7 +23,7 @@ export interface BasePhotoInfo {
   viewCount: number;
   themeColor: string;
   place: string;
-  tags: string;
+  tags: string[];
   mood: string;
   exifData: ExifData;
   createDate: string;
@@ -29,10 +31,10 @@ export interface BasePhotoInfo {
 }
 
 export interface PhotoDetailInfoResponse extends common.Response {
-  data?: BasePhotoInfo;
+  data?: { index: number; list: BasePhotoInfo[] };
 }
 export interface PhotoDetailInfoRequest {
-  id: number;
+  id: string | number;
 }
 
 export interface GalleryPhotoItem {
@@ -50,8 +52,8 @@ export interface GalleryPhotoItem {
   place: string;
   tags: string;
   updateDate: string;
-  authorName:string;
-  avatarUrl:string;
+  authorName: string;
+  avatarUrl: string;
 }
 export interface GetGalleryPhotoListResponse extends common.Response {
   data?: {

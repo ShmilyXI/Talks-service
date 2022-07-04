@@ -3,6 +3,19 @@ import query from '../sql/query';
 const getPhotoInfo = async (id: number): Promise<any> =>
   await query(`SELECT * FROM photo WHERE id = '${id}';`);
 
+// 获取照片及相关用户列表
+const getPhotoJoinUserList = async (id: number): Promise<any> =>
+  await query(`
+    select
+      a.*,
+      b.telephone,
+      b.avatar_url,
+      b.name as author_name
+    from photo
+    a LEFT JOIN user b
+      ON a.user_id = b.id;
+    `);
+
 // 分页获取照片列表
 const getPhotoList = async (
   pageIndex: number,
@@ -28,4 +41,4 @@ const getPhotoList = async (
 const getPhotoTotalCount = async (): Promise<any> =>
   await query(`SELECT FOUND_ROWS() as total;`);
 
-export default { getPhotoInfo, getPhotoList };
+export default { getPhotoJoinUserList, getPhotoList, getPhotoInfo };

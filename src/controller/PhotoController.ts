@@ -39,13 +39,13 @@ export default class PhotoController {
         'exif_shutter_speed',
         'user_id',
         'author_name',
-        'view_count',
         'avatar_url',
+        'view_count',
         'comment_id',
         'gallery_id',
         'theme_color',
         'create_date',
-        'update_date'
+        'update_date',
       ]),
       userId: item.user_id,
       authorName: item.author_name,
@@ -72,34 +72,60 @@ export default class PhotoController {
     @Ctx() ctx: Context,
     @QueryParams() params: PhotoTypes.PhotoDetailInfoRequest,
   ): Promise<PhotoTypes.PhotoDetailInfoResponse> {
-    const photoInfo = (await PhotoModel.getPhotoInfo(params?.id))?.[0] || {};
-    const tags = photoInfo.tags?.split(',') || [];
-    const exifData = {
-      brand: photoInfo.exif_brand,
-      model: photoInfo.exif_model,
-      aperture: photoInfo.exif_aperture,
-      focalLength: photoInfo.exif_focal_length,
-      shutterSpeed: photoInfo.exif_shutter_speed,
-      iso: photoInfo.exif_iso,
+    if (_.isNil(params.id)) {
+      return { code: '-1', message: '参数错误' };
+    }
+    const formatPhotoInfo = (data) => {
+      const tags = data?.tags?.split(',') || [];
+      const exifData = {
+        brand: data.exif_brand,
+        model: data.exif_model,
+        aperture: data.exif_aperture,
+        focalLength: data.exif_focal_length,
+        shutterSpeed: data.exif_shutter_speed,
+        iso: data.exif_iso,
+      };
+      return {
+        ..._.omit(data, [
+          'exif_aperture',
+          'exif_brand',
+          'exif_focal_length',
+          'exif_iso',
+          'exif_model',
+          'exif_shutter_speed',
+          'user_id',
+          'author_name',
+          'view_count',
+          'avatar_url',
+          'comment_id',
+          'gallery_id',
+          'theme_color',
+          'create_date',
+          'update_date',
+          'tags',
+        ]),
+        userId: data.user_id,
+        authorName: data.author_name,
+        avatarUrl: data.avatar_url,
+        commentId: data.comment_id,
+        galleryId: data.gallery_id,
+        viewCount: data.view_count,
+        themeColor: data.theme_color,
+        tags,
+        exifData,
+        createDate: data.create_date,
+        updateDate: data.update_date,
+      };
     };
+    const photoInfo = (await PhotoModel.getPhotoInfo(+params?.id))[0];
+
+    const photoList =
+      (await PhotoModel.getPhotoJoinUserList(photoInfo?.user_id)) || [];
+    const index = _.findIndex(photoList, (v) => v.id === +params?.id);
     const data = {
-      id: photoInfo.id,
-      userId: photoInfo.user_id,
-      commentId: photoInfo.comment_id,
-      galleryId: photoInfo.gallery_id,
-      src: photoInfo.src,
-      width: photoInfo.width,
-      height: photoInfo.height,
-      title: photoInfo.title,
-      description: photoInfo.description,
-      viewCount: photoInfo.view_count,
-      themeColor: photoInfo.theme_color,
-      place: photoInfo.place,
-      tags,
-      mood: photoInfo.mood,
-      exifData,
-      createDate: photoInfo.create_date,
-      updateDate: photoInfo.update_date,
+      index,
+      photoInfo,
+      list: _.map(photoList, (v) => formatPhotoInfo(v)),
     };
     return {
       code: '0',
