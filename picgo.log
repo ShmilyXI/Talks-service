@@ -1,0 +1,274 @@
+2022-07-04 17:44:46 [PicGo INFO] Before transform 
+2022-07-04 17:44:46 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:44:46 [PicGo INFO] Before upload 
+2022-07-04 17:44:46 [PicGo INFO] Uploading... Current uploader is [smms] 
+2022-07-04 17:44:48 [PicGo WARN] failed 
+2022-07-04 17:44:48 [PicGo ERROR] 
+------Error Stack Begin------
+Error: You must be logged in to use.
+    at Object.handle (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/plugins/uploader/smms.ts:51:15)
+    at process.currentTransformer (internal/process/task_queues.js:95:5)
+    at async Ee.ctx [as doUpload] (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/core/Lifecycle.ts:86:55)
+    at async Ee.output [as start] (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/core/Lifecycle.ts:29:31)
+    at async dt.upload (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/core/PicGo.ts:208:15)
+    at async PhotoController.uploadPhoto (/Users/xiao/WorkShop/Talks-service/src/controller/PhotoController.ts:152:23)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-04 17:45:32 [PicGo INFO] Before transform 
+2022-07-04 17:45:32 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:45:32 [PicGo INFO] Before upload 
+2022-07-04 17:45:32 [PicGo INFO] Uploading... Current uploader is [smms] 
+2022-07-04 17:45:33 [PicGo WARN] failed 
+2022-07-04 17:45:33 [PicGo ERROR] 
+------Error Stack Begin------
+Error: You must be logged in to use.
+    at Object.handle (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/plugins/uploader/smms.ts:51:15)
+    at process.currentTransformer (internal/process/task_queues.js:95:5)
+    at async Ee.ctx [as doUpload] (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/core/Lifecycle.ts:86:55)
+    at async Ee.output [as start] (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/core/Lifecycle.ts:29:31)
+    at async dt.upload (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/core/PicGo.ts:208:15)
+    at async PhotoController.uploadPhoto (/Users/xiao/WorkShop/Talks-service/src/controller/PhotoController.ts:153:23)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-04 17:48:01 [PicGo INFO] Before transform 
+2022-07-04 17:48:01 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:48:01 [PicGo INFO] Before upload 
+2022-07-04 17:48:01 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:48:02 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/7PxQqkBMdvs46FlRIWtHSazm3eHJSknJu6B7hpyK.jpg 
+2022-07-04 17:52:25 [PicGo INFO] Before transform 
+2022-07-04 17:52:25 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:52:25 [PicGo INFO] Before upload 
+2022-07-04 17:52:25 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:52:26 [PicGo WARN] failed 
+2022-07-04 17:52:26 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 17:53:28 [PicGo INFO] Before transform 
+2022-07-04 17:53:28 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:53:28 [PicGo INFO] Before upload 
+2022-07-04 17:53:28 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:53:30 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/u1.jpeg 
+2022-07-04 17:56:10 [PicGo INFO] Before transform 
+2022-07-04 17:56:10 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:56:10 [PicGo INFO] Before upload 
+2022-07-04 17:56:10 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:56:13 [PicGo WARN] failed 
+2022-07-04 17:56:13 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 17:56:41 [PicGo INFO] Before transform 
+2022-07-04 17:56:41 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:56:41 [PicGo INFO] Before upload 
+2022-07-04 17:56:41 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:56:43 [PicGo WARN] failed 
+2022-07-04 17:56:43 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 17:57:16 [PicGo INFO] Before transform 
+2022-07-04 17:57:16 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:57:16 [PicGo INFO] Before upload 
+2022-07-04 17:57:16 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:57:18 [PicGo WARN] failed 
+2022-07-04 17:57:18 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 17:58:01 [PicGo INFO] Before transform 
+2022-07-04 17:58:01 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:58:01 [PicGo INFO] Before upload 
+2022-07-04 17:58:01 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:58:04 [PicGo WARN] failed 
+2022-07-04 17:58:04 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 17:58:18 [PicGo INFO] Before transform 
+2022-07-04 17:58:18 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:58:18 [PicGo INFO] Before upload 
+2022-07-04 17:58:18 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:58:21 [PicGo WARN] failed 
+2022-07-04 17:58:21 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 17:58:40 [PicGo INFO] Before transform 
+2022-07-04 17:58:40 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:58:40 [PicGo INFO] Before upload 
+2022-07-04 17:58:40 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:58:42 [PicGo WARN] failed 
+2022-07-04 17:58:42 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 17:59:23 [PicGo INFO] Before transform 
+2022-07-04 17:59:23 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:59:23 [PicGo INFO] Before upload 
+2022-07-04 17:59:23 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:59:24 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/i%E6%B7%B1%E5%9C%B3APP%E4%BA%8C%E7%BB%B4%E7%A0%81.JPG 
+2022-07-04 17:59:47 [PicGo INFO] Before transform 
+2022-07-04 17:59:47 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 17:59:47 [PicGo INFO] Before upload 
+2022-07-04 17:59:47 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 17:59:47 [PicGo WARN] failed 
+2022-07-04 17:59:47 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 18:00:45 [PicGo INFO] Before transform 
+2022-07-04 18:00:45 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 18:00:45 [PicGo INFO] Before upload 
+2022-07-04 18:00:45 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 18:00:46 [PicGo WARN] failed 
+2022-07-04 18:00:46 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 422 - {"message":"Invalid request.\n\n\"sha\" wasn't supplied.","documentation_url":"https://docs.github.com/rest/reference/repos#create-or-update-file-contents"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-04 18:10:32 [PicGo INFO] Before transform 
+2022-07-04 18:10:32 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-04 18:10:32 [PicGo INFO] Before upload 
+2022-07-04 18:10:32 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-04 18:10:33 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/%E4%B8%8B%E8%BD%BD%20(2).png-0e0b43ec-313a-4613-9f80-92fdf01aa653 

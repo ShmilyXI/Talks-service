@@ -2,11 +2,11 @@ import 'reflect-metadata';
 import Koa from 'koa'; // 导入koa
 import path from 'path';
 import logger from 'koa-logger'; // 导入日志
-const views = require('koa-views');
-const json = require('koa-json');
-const onerror = require('koa-onerror');
-const bodyparser = require('koa-bodyparser');
-const koajwt = require('koa-jwt');
+import views from 'koa-views';
+import json from 'koa-json';
+import onerror from 'koa-onerror';
+import koabodyparser from 'koa-bodyparser';
+import koajwt from 'koa-jwt';
 import { createKoaServer, useContainer } from 'routing-controllers';
 
 import UserController from './controller/UserController';
@@ -47,10 +47,13 @@ app.use(
   }),
 );
 app.use(
-  bodyparser({
+  koabodyparser({
     enableTypes: ['json', 'form', 'text'],
+    jsonLimit: '10mb',
+    formLimit: '10mb',
   }),
 );
+
 app.use(json());
 app.use(logger());
 app.use(require('koa-static')(staticPath));

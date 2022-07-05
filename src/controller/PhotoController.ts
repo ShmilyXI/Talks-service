@@ -8,6 +8,7 @@ import {
   Param,
   Ctx,
   QueryParams,
+  UploadedFile,
 } from 'routing-controllers';
 
 import { setTime } from '../utils/util';
@@ -15,6 +16,9 @@ import { Context } from 'koa';
 import PhotoModel from '../model/PhotoModel';
 import * as PhotoTypes from '../types/PhotoTypes';
 import _ from 'lodash';
+import { PicGo } from 'picgo';
+import * as fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 @JsonController('/photo')
 export default class PhotoController {
@@ -132,6 +136,32 @@ export default class PhotoController {
       data,
     };
   }
+
+  // 上传图片
+  @Post('/upload-photo')
+  async uploadPhoto(
+    @QueryParams() data: any,
+    @UploadedFile('UploadForm[file]') file: any,
+  ): Promise<any> {
+    const picgo = new PicGo('./picgo.config.json');
+    const defaultFileName = file.originalname;
+    const fileName = `${uuidv4(6)}-${defaultFileName}`;
+    // 缓存到本地,上传后删除
+    await fs.writeFileSync(fileName, file.buffer);
+    const uploadResponse = await picgo.upload([fileName]);
+    await fs.unlinkSync(fileName);
+
+    
+    return {
+      retCode: '0',
+      data: {
+        isDone: false,
+        uploadResponse: _.omit(uploadResponse?.[0], ['buffer']),
+        data,
+      },
+    };
+  }
+
   // 获取评论列表
   @Get('/photo-detail-comments')
   async photoDetailComments(
