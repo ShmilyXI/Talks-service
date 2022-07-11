@@ -31,7 +31,7 @@ export default class CommunityController {
       '#' +
       ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6);
     return {
-      code: '0',
+      retCode:'0',
       total: 5,
       list: new Array(Number(70)).fill(null).map((_, index) => {
         const width = 400 + getRandomIntInclusive(20, 500);
@@ -65,7 +65,7 @@ export default class CommunityController {
     @QueryParams() data: any,
   ): Promise<any> {
     return {
-      code: '0',
+      retCode:'0',
       total: 10,
       list: new Array(Number(25)).fill(null).map((_, index) => ({
         avatar: 'https://via.placeholder.com/150/666666?Text=avatar',
@@ -104,7 +104,7 @@ export default class CommunityController {
     @QueryParams() data: any,
   ): Promise<any> {
     return {
-      code: '0',
+      retCode:'0',
       total: 10,
       list: new Array(Number(10)).fill(null).map((_, index) => ({
         avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
@@ -122,7 +122,7 @@ export default class CommunityController {
     @QueryParams() data: any,
   ): Promise<any> {
     return {
-      code: '0',
+      retCode:'0',
       total: 5,
       list: new Array(Number(5)).fill(null).map((_, index) => ({
         avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
@@ -142,7 +142,7 @@ export default class CommunityController {
     @QueryParams() data: any,
   ): Promise<any> {
     return {
-      code: '0',
+      retCode:'0',
       data: {
         title: 'Test title',
         avatarSrc: 'https://via.placeholder.com/48x48',

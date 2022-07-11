@@ -9,9 +9,13 @@ import {
   Ctx,
   QueryParams,
   UploadedFile,
+  Header,
+  HeaderParam,
+  HeaderParams,
 } from 'routing-controllers';
 
 import { setTime } from '../utils/util';
+import tools from '../utils/tool';
 import { Context } from 'koa';
 import PhotoModel from '../model/PhotoModel';
 import * as PhotoTypes from '../types/PhotoTypes';
@@ -19,6 +23,7 @@ import _ from 'lodash';
 import { PicGo } from 'picgo';
 import * as fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+const getImageColors = require('get-image-colors');
 
 @JsonController('/photo')
 export default class PhotoController {
@@ -28,7 +33,7 @@ export default class PhotoController {
     const { pageIndex, pageSize } = data || {};
     if (!pageIndex || !pageSize) {
       return {
-        code: '-1',
+        retCode: '-1',
         message: '参数错误',
       };
     }
@@ -62,7 +67,7 @@ export default class PhotoController {
       updateDate: item.update_date,
     }));
     return {
-      code: '0',
+      retCode: '0',
       data: {
         list,
         total: photoData.total || 0,
@@ -77,7 +82,7 @@ export default class PhotoController {
     @QueryParams() params: PhotoTypes.PhotoDetailInfoRequest,
   ): Promise<PhotoTypes.PhotoDetailInfoResponse> {
     if (_.isNil(params.id)) {
-      return { code: '-1', message: '参数错误' };
+      return { retCode: '-1', message: '参数错误' };
     }
     const formatPhotoInfo = (data) => {
       const tags = data?.tags?.split(',') || [];
@@ -132,33 +137,77 @@ export default class PhotoController {
       list: _.map(photoList, (v) => formatPhotoInfo(v)),
     };
     return {
-      code: '0',
+      retCode: '0',
       data,
     };
   }
 
-  // 上传图片
+  // 上传照片
   @Post('/upload-photo')
-  async uploadPhoto(
-    @QueryParams() data: any,
-    @UploadedFile('UploadForm[file]') file: any,
-  ): Promise<any> {
-    const picgo = new PicGo('./picgo.config.json');
-    const defaultFileName = file.originalname;
-    const fileName = `${uuidv4(6)}-${defaultFileName}`;
-    // 缓存到本地,上传后删除
-    await fs.writeFileSync(fileName, file.buffer);
-    const uploadResponse = await picgo.upload([fileName]);
-    await fs.unlinkSync(fileName);
+  async uploadPhoto(@UploadedFile('UploadForm[file]') file: any): Promise<any> {
+    try {
+      const picgo = new PicGo('./picgo.config.json');
+      const defaultFileName = file.originalname;
+      const fileName = `${uuidv4(6)}-${defaultFileName}`;
+      // 获取主题色
+      const themeColor = (
+        await getImageColors(file.buffer, {
+          count: 1,
+          type: file.mimetype,
+        })
+      )?.map((color) => color.hex());
 
-    
+      // 缓存到本地,上传后删除
+      await fs.writeFileSync(fileName, file.buffer);
+      const response = new Promise((resolve) => {
+        picgo.on('finished', (ctx) => {
+          resolve({
+            retCode: '0',
+            data: {
+              themeColor: themeColor?.[0],
+              ...ctx?.output?.[0],
+            },
+          });
+        });
+        picgo.on('notification', (notice) => {
+          resolve({
+            retCode: '-1',
+            message: notice?.title,
+          });
+        });
+      });
+      await picgo.upload([fileName]);
+      await fs.unlinkSync(fileName);
+
+      return response;
+    } catch (error) {
+      return { error };
+    }
+  }
+
+  // 新增发布照片
+  @Post('/publish-photo')
+  async publishPhoto(@HeaderParams() header, @Body() data: any): Promise<any> {
+    const token = header.authorization;
+    const { url, width, height, title, themeColor, place } = data || {};
+    if (!token || !url || !width || !height || !title || !themeColor) {
+      return { retCode: '-1', message: '参数错误' };
+    }
+    const tokenInfo: any = await tools.verToken(token);
+
+    const values = {
+      ...data,
+      tags: (data?.tags || [])?.join(','),
+      createDate: new Date(),
+      place: place?.value,
+      placeFullName: place?.label,
+      userId: tokenInfo?.id,
+    };
+    const result = await PhotoModel.insertPhotoInfo(values);
+
     return {
       retCode: '0',
-      data: {
-        isDone: false,
-        uploadResponse: _.omit(uploadResponse?.[0], ['buffer']),
-        data,
-      },
+      data: { id: result?.insertId },
     };
   }
 
@@ -169,7 +218,7 @@ export default class PhotoController {
     @QueryParams() data: any,
   ): Promise<any> {
     return {
-      code: '0',
+      retCode: '0',
       data: {
         id: '1',
         authorName: 'authorName',
@@ -268,7 +317,7 @@ export default class PhotoController {
     @QueryParams() data: any,
   ): Promise<any> {
     return {
-      code: '0',
+      retCode: '0',
       data: {
         id: '1',
         authorName: 'authorName',

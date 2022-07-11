@@ -8,6 +8,7 @@ import {
   Param,
   Ctx,
   QueryParams,
+  Header,
 } from 'routing-controllers';
 
 //引入jwt做token验证
@@ -34,19 +35,19 @@ export default class UserController {
 
     if (!check.checkName(name))
       return {
-        code: '-1',
+        retCode: '-1',
         message: '用户名格式错误',
       };
 
     if (!check.checkTel(telephone))
       return {
-        code: '-1',
+        retCode: '-1',
         message: '手机号码格式错误',
       };
 
     if (!check.checkPassword(password))
       return {
-        code: '-1',
+        retCode: '-1',
         message: '密码格式错误',
       };
 
@@ -55,14 +56,14 @@ export default class UserController {
 
     if (tels?.length > 0) {
       return {
-        code: '-2',
+        retCode: '-2',
         message: '该手机号已注册',
       };
     }
 
     if (names?.length > 0) {
       return {
-        code: '-2',
+        retCode: '-2',
         message: '用户名已存在',
       };
     }
@@ -71,7 +72,7 @@ export default class UserController {
     const id = (await UserModel.getTelephone(telephone))[0]?.id;
     if (id) await setTime(id, 'create');
 
-    return { code: '0', message: '注册成功' };
+    return { retCode: '0', message: '注册成功' };
   }
 
   // 登录
@@ -82,13 +83,13 @@ export default class UserController {
     const { telephone, password } = data || {};
     if (!check.checkTel(telephone))
       return {
-        code: '-1',
+        retCode: '-1',
         message: '手机号码格式错误',
       };
 
     if (!check.checkPassword(password))
       return {
-        code: '-1',
+        retCode: '-1',
         message: '密码格式错误',
       };
 
@@ -107,19 +108,19 @@ export default class UserController {
         );
         await setTime(res.id, 'last_login');
         return {
-          code: '0',
+          retCode: '0',
           token,
           data: { id: res?.id },
           message: '登录成功',
         };
       } else {
         return {
-          code: '-2',
+          retCode: '-2',
           message: '手机号码或密码不正确',
         };
       }
     } else {
-      return { code: '-2', message: '手机号码不存在' };
+      return { retCode: '-2', message: '手机号码不存在' };
     }
   }
 
@@ -137,27 +138,27 @@ export default class UserController {
         await tools.verToken(token);
         if (!req.id) {
           return {
-            code: '-1',
+            retCode: '-1',
             message: '参数错误',
           };
         }
         const data = (await UserModel.getUserInfo(req.id))?.[0] || {};
         return {
-          code: '0',
+          retCode: '0',
           data,
           message: '获取用户信息成功',
         };
       } catch (error) {
         ctx.status = 401;
         return {
-          code: '-1',
+          retCode: '-1',
           message: '登陆过期，请重新登陆',
         };
       }
     } else {
       ctx.status = 401;
       return {
-        code: '-1',
+        retCode: '-1',
         message: '登陆过期，请重新登陆',
       };
     }

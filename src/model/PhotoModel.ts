@@ -41,4 +41,29 @@ const getPhotoList = async (
 const getPhotoTotalCount = async (): Promise<any> =>
   await query(`SELECT FOUND_ROWS() as total;`);
 
-export default { getPhotoJoinUserList, getPhotoList, getPhotoInfo };
+// 保存照片信息
+const insertPhotoInfo = async ({
+  userId,
+  url,
+  width,
+  height,
+  title,
+  description,
+  themeColor,
+  place,
+  placeFullName,
+  tags,
+  mood,
+  shootingDate,
+  createDate,
+}): Promise<any> =>
+  await query(
+    `INSERT INTO photo(user_id, url, width, height, title, description, theme_color, place, place_full_name, tags, mood, shooting_date, create_date) VALUES('${userId}', '${url}', '${width}', '${height}', '${title}', '${description}', '${themeColor}', '${place}', '${placeFullName}', '${tags}', '${mood}', '${shootingDate}', '${createDate}');`,
+  );
+
+export default {
+  getPhotoJoinUserList,
+  getPhotoList,
+  getPhotoInfo,
+  insertPhotoInfo,
+};

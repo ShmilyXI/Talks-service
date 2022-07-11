@@ -1,4 +1,4 @@
 # Talks-service
 Talks-service
 
-Imageshack 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
+gallery_token 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

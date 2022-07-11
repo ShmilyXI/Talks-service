@@ -30,7 +30,7 @@ app.use(async (ctx, next) => {
       ctx.status = 401;
       ctx.body = {
         type: 'warning',
-        code: '-3',
+        retCode:'-3',
         message: '登陆过期，请重新登陆',
       };
     } else {

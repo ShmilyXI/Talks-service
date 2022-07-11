@@ -5,7 +5,7 @@ router.prefix('/community');
 
 router.get('/latest-list', function (ctx, next) {
   ctx.body = {
-    code: '0',
+    retCode:'0',
     total: 10,
     list: new Array(Number(25)).fill(null).map((_, index) => ({
       avatar: 'https://via.placeholder.com/150/666666?Text=avatar',
@@ -39,7 +39,7 @@ router.get('/latest-list', function (ctx, next) {
 
 router.get('/top-contributor-list', function (ctx, next) {
   ctx.body = {
-    code: '0',
+    retCode:'0',
     total: 10,
     list: new Array(Number(10)).fill(null).map((_, index) => ({
       avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
@@ -52,7 +52,7 @@ router.get('/top-contributor-list', function (ctx, next) {
 
 router.get('/unanswered-talk-list', function (ctx, next) {
   ctx.body = {
-    code: '0',
+    retCode:'0',
     total: 5,
     list: new Array(Number(5)).fill(null).map((_, index) => ({
       avatar: 'https://via.placeholder.com/150/999999?Text=contributors',
@@ -67,7 +67,7 @@ router.get('/unanswered-talk-list', function (ctx, next) {
 
 router.get('/detail-info', function (ctx, next) {
   ctx.body = {
-    code: '0',
+    retCode:'0',
     data: {
       title: 'Test title',
       avatarSrc: 'https://via.placeholder.com/48x48',
