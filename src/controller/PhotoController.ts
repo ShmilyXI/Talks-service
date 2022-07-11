@@ -23,13 +23,21 @@ import _ from 'lodash';
 import { PicGo } from 'picgo';
 import * as fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  GetGalleryPhotoListRequest,
+  PublishPhotoRequest,
+  PublishPhotoResponse,
+  UploadPhotoResponse,
+} from '../types/PhotoTypes';
 const getImageColors = require('get-image-colors');
 
 @JsonController('/photo')
 export default class PhotoController {
   // 获取照片列表
   @Post('/gallery-photo-list')
-  async galleryPhotoList(@Body() data: any): Promise<any> {
+  async galleryPhotoList(
+    @Body() data: GetGalleryPhotoListRequest,
+  ): Promise<PhotoTypes.GetGalleryPhotoListResponse> {
     const { pageIndex, pageSize } = data || {};
     if (!pageIndex || !pageSize) {
       return {
@@ -78,7 +86,6 @@ export default class PhotoController {
   // 获取照片详情
   @Get('/photo-detail-info')
   async photoDetailInfo(
-    @Ctx() ctx: Context,
     @QueryParams() params: PhotoTypes.PhotoDetailInfoRequest,
   ): Promise<PhotoTypes.PhotoDetailInfoResponse> {
     if (_.isNil(params.id)) {
@@ -144,7 +151,9 @@ export default class PhotoController {
 
   // 上传照片
   @Post('/upload-photo')
-  async uploadPhoto(@UploadedFile('UploadForm[file]') file: any): Promise<any> {
+  async uploadPhoto(
+    @UploadedFile('UploadForm[file]') file: any,
+  ): Promise<UploadPhotoResponse> {
     try {
       const picgo = new PicGo('./picgo.config.json');
       const defaultFileName = file.originalname;
@@ -181,24 +190,28 @@ export default class PhotoController {
 
       return response;
     } catch (error) {
-      return { error };
+      return { retCode: '-1', message: error };
     }
   }
 
   // 新增发布照片
   @Post('/publish-photo')
-  async publishPhoto(@HeaderParams() header, @Body() data: any): Promise<any> {
+  async publishPhoto(
+    @HeaderParams() header,
+    @Body() data: PublishPhotoRequest,
+  ): Promise<PublishPhotoResponse> {
     const token = header.authorization;
     const { url, width, height, title, themeColor, place } = data || {};
     if (!token || !url || !width || !height || !title || !themeColor) {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
-
+    const nowDate = new Date();
     const values = {
       ...data,
       tags: (data?.tags || [])?.join(','),
-      createDate: new Date(),
+      createDate:nowDate,
+      updateDate: nowDate,
       place: place?.value,
       placeFullName: place?.label,
       userId: tokenInfo?.id,

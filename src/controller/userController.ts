@@ -29,8 +29,8 @@ export default class UserController {
   // 用户注册
   @Post('/register')
   async register(
-    @Body() data: UserTypes.RegisterRequest,
-  ): Promise<UserTypes.RegisterResponse> {
+    @Body() data: UserTypes.UserRegisterRequest,
+  ): Promise<UserTypes.UserRegisterResponse> {
     let { name, telephone, password } = data || {};
 
     if (!check.checkName(name))
@@ -78,8 +78,8 @@ export default class UserController {
   // 登录
   @Post('/login')
   async login(
-    @Body() data: UserTypes.LoginRequest,
-  ): Promise<UserTypes.LoginResponse> {
+    @Body() data: UserTypes.UserLoginRequest,
+  ): Promise<UserTypes.UserLoginResponse> {
     const { telephone, password } = data || {};
     if (!check.checkTel(telephone))
       return {
