@@ -1,4 +1,4 @@
 # Talks-service
 Talks-service
 
-gallery_token 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
+gallery_token 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

@@ -20,6 +20,7 @@ import { Context } from 'koa';
 import PhotoModel from '../model/PhotoModel';
 import * as PhotoTypes from '../types/PhotoTypes';
 import _ from 'lodash';
+import path from 'path';
 import { PicGo } from 'picgo';
 import * as fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
@@ -155,7 +156,7 @@ export default class PhotoController {
     @UploadedFile('UploadForm[file]') file: any,
   ): Promise<UploadPhotoResponse> {
     try {
-      const picgo = new PicGo('./picgo.config.json');
+      const picgo = new PicGo(path.join(__dirname, '../../picgo.config.json'));
       const defaultFileName = file.originalname;
       const fileName = `${uuidv4(6)}-${defaultFileName}`;
       // 获取主题色
@@ -187,7 +188,6 @@ export default class PhotoController {
       });
       await picgo.upload([fileName]);
       await fs.unlinkSync(fileName);
-
       return response;
     } catch (error) {
       return { retCode: '-1', message: error };
@@ -210,7 +210,7 @@ export default class PhotoController {
     const values = {
       ...data,
       tags: (data?.tags || [])?.join(','),
-      createDate:nowDate,
+      createDate: nowDate,
       updateDate: nowDate,
       place: place?.value,
       placeFullName: place?.label,
@@ -227,105 +227,6 @@ export default class PhotoController {
   // 获取评论列表
   @Get('/photo-detail-comments')
   async photoDetailComments(
-    @Ctx() ctx: Context,
-    @QueryParams() data: any,
-  ): Promise<any> {
-    return {
-      retCode: '0',
-      data: {
-        id: '1',
-        authorName: 'authorName',
-        authorId: 123,
-        avatarSrc: 'https://via.placeholder.com/48x48',
-        title: 'articleTitle',
-        descriptionBody:
-          "<div style='font-size: 20px'><p>asdadasdaqweqeqeqwqe</p><p>1231231312313123132</p></div>",
-        linkTags: [
-          {
-            name: '#111',
-            link: '/111',
-          },
-          {
-            name: '#222',
-            link: '/222',
-          },
-          {
-            name: '#333',
-            link: '/333',
-          },
-          {
-            name: '#444',
-            link: '/444',
-          },
-          {
-            name: '#555',
-            link: '/555',
-          },
-        ],
-        mood: 'good',
-        location: {
-          name: '湖南长沙',
-          value: 'hunan changsha',
-        },
-        view: 33,
-        galleries: [{}],
-        exifData: {
-          brand: 'NIKON CORPORATION',
-          model: 'NIKON D5200',
-          aperture: 'ƒ/10.0',
-          focalLength: '55mm',
-          shutterSpeed: '1/400s',
-          iso: '100',
-        },
-        photoList: [
-          {
-            src: 'https://via.placeholder.com/450x300?text=1',
-            width: 450,
-            height: 300,
-            backgroundColor: '#000000',
-            timeSpan: 'Yesterday',
-            date: '2022-06-07T14:05:33+00:00',
-          },
-          {
-            src: 'https://via.placeholder.com/450x300?text=2',
-            width: 450,
-            height: 300,
-            backgroundColor: '#000000',
-            timeSpan: 'Week',
-            date: '2022-06-07T14:05:33+00:00',
-          },
-          {
-            src: 'https://via.placeholder.com/450x300?text=3',
-            width: 450,
-            height: 300,
-            backgroundColor: '#000000',
-            timeSpan: 'Month',
-            date: '2022-06-07T14:05:33+00:00',
-          },
-          {
-            src: 'https://via.placeholder.com/450x300?text=4',
-            width: 450,
-            height: 300,
-            backgroundColor: '#000000',
-            timeSpan: '1 year',
-            date: '2022-06-07T14:05:33+00:00',
-          },
-          {
-            src: 'https://via.placeholder.com/450x300?text=5',
-            width: 450,
-            height: 300,
-            backgroundColor: '#000000',
-            timeSpan: '2 year',
-            date: '2022-06-07T14:05:33+00:00',
-          },
-        ],
-        date: '2022-06-07T14:05:33+00:00',
-      },
-    };
-  }
-  // 获取里程碑列表
-  @Get('/photo-milestone-list')
-  async photoMilestoneList(
     @Ctx() ctx: Context,
     @QueryParams() data: any,
   ): Promise<any> {
