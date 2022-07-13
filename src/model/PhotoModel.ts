@@ -53,7 +53,6 @@ const insertPhotoInfo = async ({
   description,
   themeColor,
   place,
-  placeFullName,
   tags,
   mood,
   shootingDate,
@@ -61,7 +60,7 @@ const insertPhotoInfo = async ({
   updateDate
 }: any): Promise<any> =>
   await query(
-    `INSERT INTO photo(user_id, url, width, height, title, description, theme_color, place, place_full_name, tags, mood, shooting_date, create_date, update_date) VALUES('${userId}', '${url}', '${width}', '${height}', '${title}', '${description}', '${themeColor}', '${place}', '${placeFullName}', '${tags}', '${mood}', '${shootingDate}', '${createDate}', '${updateDate}');`,
+    `INSERT INTO photo(user_id, url, width, height, title, description, theme_color, place, tags, mood, shooting_date, create_date, update_date) VALUES('${userId}', '${url}', '${width}', '${height}', '${title}', '${description}', '${themeColor}', '${place}', '${tags}', '${mood}', '${shootingDate}', '${createDate}', '${updateDate}');`,
   );
 
 export default {

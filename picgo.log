@@ -2336,3 +2336,33 @@ TypeError: transformer duplicate id: compress!
 2022-07-13 14:47:44 [PicGo INFO] Uploading... Current uploader is [github] 
 2022-07-13 14:47:51 [PicGo SUCCESS] 
 https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/0f19025f-3732-4547-a345-12620d8f97bf-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
+2022-07-13 16:30:43 [PicGo INFO] Before transform 
+2022-07-13 16:30:43 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 16:30:43 [PicGo INFO] Before upload 
+2022-07-13 16:30:43 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 16:30:50 [PicGo WARN] failed 
+2022-07-13 16:30:50 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-13 16:51:56 [PicGo INFO] Before transform 
+2022-07-13 16:51:56 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 16:51:56 [PicGo INFO] Before upload 
+2022-07-13 16:51:56 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 16:52:00 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/8c53b8e9-171e-43a9-b7e5-5dab9b7e65a5-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 

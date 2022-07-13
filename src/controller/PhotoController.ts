@@ -93,7 +93,7 @@ export default class PhotoController {
       return { retCode: '-1', message: '参数错误' };
     }
     const formatPhotoInfo = (data) => {
-      const tags = data?.tags?.split(',') || [];
+      const tags = data?.tags ? data?.tags?.split(',') : [];
       const exifData = {
         brand: data.exif_brand,
         model: data.exif_model,
@@ -141,7 +141,6 @@ export default class PhotoController {
     const index = _.findIndex(photoList, (v) => v.id === +params?.id);
     const data = {
       index,
-      photoInfo,
       list: _.map(photoList, (v) => formatPhotoInfo(v)),
     };
     return {
@@ -201,7 +200,7 @@ export default class PhotoController {
     @Body() data: PublishPhotoRequest,
   ): Promise<PublishPhotoResponse> {
     const token = header.authorization;
-    const { url, width, height, title, themeColor, place } = data || {};
+    const { url, width, height, title, themeColor } = data || {};
     if (!token || !url || !width || !height || !title || !themeColor) {
       return { retCode: '-1', message: '参数错误' };
     }
@@ -212,8 +211,6 @@ export default class PhotoController {
       tags: (data?.tags || [])?.join(','),
       createDate: nowDate,
       updateDate: nowDate,
-      place: place?.value,
-      placeFullName: place?.label,
       userId: tokenInfo?.id,
     };
     const result = await PhotoModel.insertPhotoInfo(values);

@@ -2,11 +2,12 @@
   "picBed": {
     "uploader": "github",
     "github": {
-      "token": "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",
+      "token": "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",
       "repo": "ShmilyXI/Gallerys",
       "path": "Talks/",
       "customUrl": "https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys",
       "branch": "master"
     }
-  }
+  },
+  "picgoPlugins": {}
 }
