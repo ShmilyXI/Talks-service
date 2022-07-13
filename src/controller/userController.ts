@@ -9,6 +9,8 @@ import {
   Ctx,
   QueryParams,
   Header,
+  UploadedFile,
+  HeaderParams,
 } from 'routing-controllers';
 
 //引入jwt做token验证
@@ -20,6 +22,15 @@ import { setTime } from '../utils/util';
 import { Context } from 'koa';
 import UserModel from '../model/UserModel';
 import * as UserTypes from '../types/UserTypes';
+import {
+  UpdateUserInfoRequest,
+  UpdateUserInfoResponse,
+  UploadAvatarResponse,
+} from '../types/UserTypes';
+import { PicGo } from 'picgo';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
 
 //统一设置token有效时间
 const expireTime = '999h';
@@ -162,5 +173,70 @@ export default class UserController {
         message: '登陆过期，请重新登陆',
       };
     }
+  }
+
+  // 上传头像
+  @Post('/upload-avatar')
+  async uploadAvatar(
+    @UploadedFile('UploadForm[file]') file: any,
+  ): Promise<UploadAvatarResponse> {
+    try {
+      const picgo = new PicGo(path.join(__dirname, '../../picgo.config.json'));
+      picgo.setConfig({
+        'picBed.github.path': 'Talks/Avatars/',
+      });
+      const defaultFileName = file.originalname;
+      const fileName = `${uuidv4(6)}-${defaultFileName}`;
+
+      // 缓存到本地,上传后删除
+      await fs.writeFileSync(fileName, file.buffer);
+      const response = new Promise((resolve) => {
+        picgo.on('finished', (ctx) => {
+          resolve({
+            retCode: '0',
+            data: ctx?.output?.[0]?.imgUrl,
+          });
+        });
+        picgo.on('notification', (notice) => {
+          resolve({
+            retCode: '-1',
+            message: notice?.title,
+          });
+        });
+      });
+      await picgo.upload([fileName]);
+      await fs.unlinkSync(fileName);
+      return response;
+    } catch (error) {
+      return { retCode: '-1', message: error };
+    }
+  }
+
+  // 更新用户信息
+  @Post('/update-user-info')
+  async updateUserInfo(
+    @HeaderParams() header,
+    @Body() data: UpdateUserInfoRequest,
+  ): Promise<UpdateUserInfoResponse> {
+    const token = header.authorization;
+    const { displayName, avatarUrl, email, userName } = data || {};
+    if (!token || !displayName || !avatarUrl || !email || !userName) {
+      return { retCode: '-1', message: '参数错误' };
+    }
+    const tokenInfo: any = await tools.verToken(token);
+    const nowDate = new Date();
+    const values = {
+      ...data,
+      createDate: nowDate,
+      updateDate: nowDate,
+      id: tokenInfo?.id,
+    };
+    await UserModel.updateUserInfo(values);
+    const userInfo = (await UserModel.getUserInfo(tokenInfo?.id))?.[0] || {};
+
+    return {
+      retCode: '0',
+      data: userInfo,
+    };
   }
 }
