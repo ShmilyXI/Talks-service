@@ -10,7 +10,8 @@ const getPhotoJoinUserList = async (id: number): Promise<any> =>
       a.*,
       b.telephone,
       b.avatar_url,
-      b.name as author_name
+      b.display_name as author_name,
+      b.username as author_username
     from photo
     a LEFT JOIN user b
       ON a.user_id = b.id;
@@ -26,7 +27,8 @@ const getPhotoList = async (
     a.*,
     b.telephone,
     b.avatar_url,
-    b.name as author_name
+    b.display_name as author_name,
+    b.username as author_username
   from photo
   a LEFT JOIN user b
     ON a.user_id = b.id

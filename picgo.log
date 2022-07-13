@@ -2011,3 +2011,328 @@ https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/50bfbcf9-715b-4c76-b
 2022-07-13 10:04:42 [PicGo INFO] Uploading... Current uploader is [github] 
 2022-07-13 10:04:47 [PicGo SUCCESS] 
 https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/c6b0c3ab-7bd8-4d8f-b6f9-de9bade44b35-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-13 11:05:26 [PicGo SUCCESS] compression加载成功! 
+2022-07-13 11:05:26 [PicGo SUCCESS] compression加载成功! 
+2022-07-13 11:05:26 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: beforeUploadPlugins duplicate id: compression!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compression/src/index.js:167:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:189:26)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:05:26 [PicGo INFO] Before transform 
+2022-07-13 11:05:26 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:05:26 [PicGo INFO] Before upload 
+2022-07-13 11:05:26 [PicGo INFO] beforeUploadPlugins: compression running 
+2022-07-13 11:06:41 [PicGo ERROR] beforeUploadPlugins: compression error 
+2022-07-13 11:06:41 [PicGo WARN] failed 
+2022-07-13 11:06:41 [PicGo ERROR] 
+------Error Stack Begin------
+RequestError: Error: connect ETIMEDOUT 116.62.131.122:443
+    at new RequestError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:14:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:87:29)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.onRequestError (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:375:28)
+    at ClientRequest.emit (domain.js:470:12)
+    at TLSSocket.socketErrorListener (_http_client.js:475:9)
+    at TLSSocket.emit (events.js:375:28)
+    at TLSSocket.emit (domain.js:470:12)
+    at emitErrorNT (internal/streams/destroy.js:106:8)
+    at emitErrorCloseNT (internal/streams/destroy.js:74:3)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-13 11:08:36 [PicGo SUCCESS] compression加载成功! 
+2022-07-13 11:08:36 [PicGo INFO] Before transform 
+2022-07-13 11:08:36 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:08:36 [PicGo INFO] Before upload 
+2022-07-13 11:08:36 [PicGo INFO] beforeUploadPlugins: compression running 
+2022-07-13 11:09:51 [PicGo ERROR] beforeUploadPlugins: compression error 
+2022-07-13 11:09:51 [PicGo WARN] failed 
+2022-07-13 11:09:51 [PicGo ERROR] 
+------Error Stack Begin------
+RequestError: Error: connect ETIMEDOUT 116.62.131.122:443
+    at new RequestError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:14:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:87:29)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.onRequestError (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:375:28)
+    at ClientRequest.emit (domain.js:470:12)
+    at TLSSocket.socketErrorListener (_http_client.js:475:9)
+    at TLSSocket.emit (events.js:375:28)
+    at TLSSocket.emit (domain.js:470:12)
+    at emitErrorNT (internal/streams/destroy.js:106:8)
+    at emitErrorCloseNT (internal/streams/destroy.js:74:3)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-13 11:31:46 [PicGo SUCCESS] 插件安装成功 
+2022-07-13 11:31:46 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/dist/index.cjs.js:1:15478)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/dist/index.cjs.js:1:30035)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:191:28)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/routing-controllers/cjs/driver/koa/KoaDriver.js:389:16)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:31:46 [PicGo INFO] Before transform 
+2022-07-13 11:31:46 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:31:47 [PicGo INFO] Before upload 
+2022-07-13 11:31:47 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:31:53 [PicGo WARN] failed 
+2022-07-13 11:31:53 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-13 11:37:09 [PicGo INFO] Before transform 
+2022-07-13 11:37:09 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:37:09 [PicGo INFO] Before upload 
+2022-07-13 11:37:09 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:37:18 [PicGo WARN] failed 
+2022-07-13 11:37:18 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-13 11:38:22 [PicGo INFO] Before transform 
+2022-07-13 11:38:22 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:38:22 [PicGo INFO] Before upload 
+2022-07-13 11:38:22 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:38:25 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
+2022-07-13 11:41:31 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:191:28)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:41:31 [PicGo INFO] Before transform 
+2022-07-13 11:41:31 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:41:31 [PicGo INFO] Before upload 
+2022-07-13 11:41:31 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:41:35 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/b2e4a084-f06b-430b-a0ff-2c82d5e3d8d4-billow926-7xbuPT9QfY0-unsplash.jpg 
+2022-07-13 11:42:50 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:191:28)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:42:50 [PicGo INFO] Before transform 
+2022-07-13 11:42:50 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:42:50 [PicGo INFO] Before upload 
+2022-07-13 11:42:50 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:42:52 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/6170ab3b-725f-421c-827e-4707bfd00fec-billow926-7xbuPT9QfY0-unsplash.jpg 
+2022-07-13 11:43:16 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:191:28)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:43:23 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:191:28)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:43:30 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:191:28)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:43:30 [PicGo INFO] Before transform 
+2022-07-13 11:43:30 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:43:30 [PicGo INFO] Before upload 
+2022-07-13 11:43:30 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:43:32 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/5932cd52-7eb6-48f7-b65b-85e839be259e-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-13 11:47:18 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:191:28)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 11:47:18 [PicGo INFO] Before transform 
+2022-07-13 11:47:18 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:47:18 [PicGo INFO] Before upload 
+2022-07-13 11:47:18 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:47:21 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/73d27c1f-119b-42c9-8a98-ec2e4218b429-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-13 11:50:36 [PicGo INFO] Before transform 
+2022-07-13 11:50:36 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 11:50:36 [PicGo INFO] Before upload 
+2022-07-13 11:50:36 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 11:50:39 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/93b8a907-efc3-4d39-aa3a-fa5e576bb1e7-billow926-7xbuPT9QfY0-unsplash.jpg 
+2022-07-13 14:32:08 [PicGo INFO] Before transform 
+2022-07-13 14:32:08 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 14:32:08 [PicGo INFO] Before upload 
+2022-07-13 14:32:08 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 14:32:11 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/1c9792af-dd42-4399-a6aa-977923b0ee8e-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
+2022-07-13 14:36:54 [PicGo SUCCESS] PicGo has already installed picgo-plugin-compress 
+2022-07-13 14:36:54 [PicGo SUCCESS] 插件安装成功 
+2022-07-13 14:36:54 [PicGo INFO] Before transform 
+2022-07-13 14:36:54 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 14:36:54 [PicGo INFO] Before upload 
+2022-07-13 14:36:54 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 14:36:58 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/59c53b50-56ef-4d90-b657-cf94ded51d9e-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
+2022-07-13 14:41:22 [PicGo SUCCESS] PicGo has already installed picgo-plugin-compress 
+2022-07-13 14:41:22 [PicGo SUCCESS] 插件安装成功 
+2022-07-13 14:41:22 [PicGo INFO] Before transform 
+2022-07-13 14:41:22 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 14:41:22 [PicGo INFO] Before upload 
+2022-07-13 14:41:22 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 14:41:25 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/cbf52954-ffac-4e21-816c-87d6efecbc73-5932cd52-7eb6-48f7-b65b-85e839be259e-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-13 14:43:01 [PicGo INFO] Before transform 
+2022-07-13 14:43:01 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 14:43:01 [PicGo INFO] Before upload 
+2022-07-13 14:43:01 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 14:43:03 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/1a06afa9-a1f9-4894-b670-74b0f4fad815-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-13 14:45:09 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:186:26)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 14:45:09 [PicGo INFO] Before transform 
+2022-07-13 14:45:09 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 14:45:09 [PicGo INFO] Before upload 
+2022-07-13 14:45:09 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 14:45:12 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/55fa2cea-b1c9-4005-9df9-8e9fe9eafb55-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-13 14:47:11 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:186:32)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 14:47:11 [PicGo INFO] Before transform 
+2022-07-13 14:47:11 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 14:47:11 [PicGo INFO] Before upload 
+2022-07-13 14:47:11 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 14:47:13 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/9b6017b8-09d3-4861-8fc2-77c3b2682537-5932cd52-7eb6-48f7-b65b-85e839be259e-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-13 14:47:44 [PicGo ERROR] 
+------Error Stack Begin------
+TypeError: transformer duplicate id: compress!
+    at Le.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/LifecyclePlugins.ts:18:34)
+    at Object.register (/Users/xiao/WorkShop/Talks-service/node_modules/picgo-plugin-compress/dist/index.js:45:36)
+    at it.registerPlugin (/Users/xiao/WorkShop/Talks-service/node_modules/picgo/src/lib/PluginLoader.ts:93:26)
+    at UserController.uploadAvatar (/Users/xiao/WorkShop/Talks-service/src/controller/UserController.ts:186:32)
+    at ActionMetadata.callMethod (/Users/xiao/WorkShop/Talks-service/node_modules/src/metadata/ActionMetadata.ts:252:44)
+    at /Users/xiao/WorkShop/Talks-service/node_modules/src/RoutingControllers.ts:123:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async fixMulterRequestAssignment (/Users/xiao/WorkShop/Talks-service/node_modules/src/driver/koa/KoaDriver.ts:417:12)
+    at async bodyParser (/Users/xiao/WorkShop/Talks-service/node_modules/koa-bodyparser/index.js:95:5)
+-------Error Stack End------- 
+2022-07-13 14:47:44 [PicGo INFO] Before transform 
+2022-07-13 14:47:44 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-13 14:47:44 [PicGo INFO] Before upload 
+2022-07-13 14:47:44 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-13 14:47:51 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/0f19025f-3732-4547-a345-12620d8f97bf-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
