@@ -42,9 +42,9 @@ export default class UserController {
   async register(
     @Body() data: UserTypes.UserRegisterRequest,
   ): Promise<UserTypes.UserRegisterResponse> {
-    let { name, telephone, password } = data || {};
+    let { username, telephone, password } = data || {};
 
-    if (!check.checkName(name))
+    if (!check.checkName(username))
       return {
         retCode: '-1',
         message: '用户名格式错误',
@@ -62,7 +62,7 @@ export default class UserController {
         message: '密码格式错误',
       };
 
-    const names = await UserModel.getUser(name); //用户名是否重复
+    const names = await UserModel.getUser(username); //用户名是否重复
     const tels = await UserModel.getTelephone(telephone); //手机号是否重复
 
     if (tels?.length > 0) {
@@ -79,9 +79,7 @@ export default class UserController {
       };
     }
 
-    await UserModel.insert(name, telephone, password);
-    const id = (await UserModel.getTelephone(telephone))[0]?.id;
-    if (id) await setTime(id, 'create');
+    await UserModel.insert(username, telephone, password);
 
     return { retCode: '0', message: '注册成功' };
   }
@@ -111,13 +109,13 @@ export default class UserController {
         const token = jwt.sign(
           {
             id: res?.id,
+            username: res?.username,
             telephone,
             password,
           },
           '126226',
           { expiresIn: expireTime },
         );
-        await setTime(res.id, 'last_login');
         return {
           retCode: '0',
           token,
@@ -224,11 +222,8 @@ export default class UserController {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
-    const nowDate = new Date();
     const values = {
       ...data,
-      createDate: nowDate,
-      updateDate: nowDate,
       id: tokenInfo?.id,
     };
     await UserModel.updateUserInfo(values);

@@ -1,8 +1,8 @@
 import query from '../sql/query';
 import { UpdateUserInfoRequest } from '../types/UserTypes';
 //获取用户
-const getUser = async (name: string): Promise<any> =>
-  await query(`SELECT * FROM user WHERE name = '${name}';`);
+const getUser = async (username: string): Promise<any> =>
+  await query(`SELECT * FROM user WHERE username = '${username}';`);
 
 //获取用户手机号
 const getTelephone = async (tel: string): Promise<any> =>
@@ -17,18 +17,24 @@ const updateUserInfo = async (
   values: UpdateUserInfoRequest & { id: string },
 ): Promise<any> => {
   return await query(
-    `UPDATE user SET display_name = '${values.displayName}', email = '${values.email}', individual_resume = '${values.individualResume}', location = '${values.location}', username = '${values.userName}', avatar_url = '${values.avatarUrl}' WHERE id = '${values.id}';`,
+    `UPDATE user SET display_name = '${values.displayName || ''}', email = '${
+      values.email || ''
+    }', individual_resume = '${values.individualResume || ''}', location = '${
+      values.location || ''
+    }', username = '${values.userName || ''}', avatar_url = '${
+      values.avatarUrl || ''
+    }' WHERE id = '${values.id}';`,
   );
 };
 
 //用户注册
 const insert = async (
-  name: string,
+  username: string,
   telephone: string,
   password: string,
 ): Promise<any> => {
   return await query(
-    `INSERT INTO user(name, telephone, password) VALUES('${name}', '${telephone}', '${password}');`,
+    `INSERT INTO user(username,display_name, telephone, password) VALUES('${username}','${username}', '${telephone}', '${password}');`,
   );
 };
 

@@ -3,14 +3,9 @@ import {
   Body,
   Get,
   Post,
-  Put,
-  Delete,
-  Param,
   Ctx,
   QueryParams,
   UploadedFile,
-  Header,
-  HeaderParam,
   HeaderParams,
 } from 'routing-controllers';
 
@@ -205,12 +200,9 @@ export default class PhotoController {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
-    const nowDate = new Date();
     const values = {
       ...data,
       tags: (data?.tags || [])?.join(','),
-      createDate: nowDate,
-      updateDate: nowDate,
       userId: tokenInfo?.id,
     };
     const result = await PhotoModel.insertPhotoInfo(values);

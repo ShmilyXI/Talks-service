@@ -64,3 +64,11 @@ export const getRandomIntInclusive = (min, max) => {
 // 获取随机色值
 export const getRandomColor = () =>
   '#' + ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6);
+
+// 下划线转驼峰
+export const toHump = (str: string): string =>
+  str.replace(/\_(\w)/g, (all, letter) => letter.toUpperCase());
+
+// 驼峰转下划线
+export const toLine = (str: string): string =>
+  str.replace(/([A-Z])/g, '_$1').toLowerCase();

@@ -2366,3 +2366,63 @@ StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https:/
 2022-07-13 16:51:56 [PicGo INFO] Uploading... Current uploader is [github] 
 2022-07-13 16:52:00 [PicGo SUCCESS] 
 https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/8c53b8e9-171e-43a9-b7e5-5dab9b7e65a5-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
+2022-07-14 16:37:51 [PicGo INFO] Before transform 
+2022-07-14 16:37:51 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-14 16:37:51 [PicGo INFO] Before upload 
+2022-07-14 16:37:51 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-14 16:37:52 [PicGo WARN] failed 
+2022-07-14 16:37:52 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-14 16:39:16 [PicGo INFO] Before transform 
+2022-07-14 16:39:16 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-14 16:39:16 [PicGo INFO] Before upload 
+2022-07-14 16:39:16 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-14 16:39:18 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/1ab2d1c7-6ac2-4740-94c8-613f66dd6f86-fzPdA1pPiXJLVvimGpn86iEENnYWvOx1nywExD68.jpg 
+2022-07-15 15:21:20 [PicGo INFO] Before transform 
+2022-07-15 15:21:20 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-15 15:21:20 [PicGo INFO] Before upload 
+2022-07-15 15:21:20 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-15 15:21:54 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/d95aeed9-b9ae-4731-a597-351d8057e5e9-55fa2cea-b1c9-4005-9df9-8e9fe9eafb55-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-15 15:22:03 [PicGo INFO] Before transform 
+2022-07-15 15:22:03 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-15 15:22:03 [PicGo INFO] Before upload 
+2022-07-15 15:22:03 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-15 15:22:08 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/21566d43-183e-4519-8db0-32dcb446185f-55fa2cea-b1c9-4005-9df9-8e9fe9eafb55-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-15 15:22:41 [PicGo INFO] Before transform 
+2022-07-15 15:22:41 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-15 15:22:41 [PicGo INFO] Before upload 
+2022-07-15 15:22:41 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-15 15:22:44 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/a25918ed-e6e9-4fc9-946f-fc276e227935-55fa2cea-b1c9-4005-9df9-8e9fe9eafb55-andrew-deslauriers-oUPywYZT88Y-unsplash.jpg 
+2022-07-15 15:24:25 [PicGo INFO] Before transform 
+2022-07-15 15:24:25 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-15 15:24:25 [PicGo INFO] Before upload 
+2022-07-15 15:24:25 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-15 15:24:29 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/a867f08c-575a-4a89-ac96-1f4006487a64-1c9792af-dd42-4399-a6aa-977923b0ee8e-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
+2022-07-15 15:24:59 [PicGo INFO] Before transform 
+2022-07-15 15:24:59 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-15 15:24:59 [PicGo INFO] Before upload 
+2022-07-15 15:24:59 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-15 15:25:05 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/907cccf0-4f69-43f6-b622-777f12fd7508-1c9792af-dd42-4399-a6aa-977923b0ee8e-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 

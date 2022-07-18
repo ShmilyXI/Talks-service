@@ -12,9 +12,15 @@ import { createKoaServer, useContainer } from 'routing-controllers';
 import UserController from './controller/UserController';
 import PhotoController from './controller/PhotoController';
 import CommunityController from './controller/CommunityController';
+import CommentController from './controller/CommentController';
 
 const app = createKoaServer({
-  controllers: [UserController, PhotoController, CommunityController], // we specify controllers we want to use
+  controllers: [
+    UserController,
+    PhotoController,
+    CommunityController,
+    CommentController,
+  ], // we specify controllers we want to use
 });
 
 const staticPath = path.join(__dirname, '../public'); // 静态地址
@@ -30,7 +36,7 @@ app.use(async (ctx, next) => {
       ctx.status = 401;
       ctx.body = {
         type: 'warning',
-        retCode:'-3',
+        retCode: '-3',
         message: '登陆过期，请重新登陆',
       };
     } else {
