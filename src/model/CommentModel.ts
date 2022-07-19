@@ -10,7 +10,7 @@ const getPhotoCommentList = async (id: number): Promise<any> =>
     from comment
     a LEFT JOIN user b
     ON a.user_id = b.id
-    where photo_id = '${id}' and comment_level = 1 and type = 1 ORDER BY top_status desc ,create_date desc;
+    where photo_id = '${id}' and comment_level = 1 and type = 1 ORDER BY top_status desc ,create_time desc;
     `,
   );
 
@@ -27,7 +27,7 @@ const getChildrenPhotoCommentList = async (
     from comment
     a LEFT JOIN user b
     ON a.user_id = b.id
-    where parent_comment_id = '${parentId}' and photo_id = '${id}' and comment_level = 2 and type = 1 ORDER BY create_date;
+    where parent_comment_id = '${parentId}' and photo_id = '${id}' and comment_level = 2 and type = 1 ORDER BY create_time;
     `
   );
 

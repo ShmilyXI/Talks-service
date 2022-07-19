@@ -58,8 +58,8 @@ export default class PhotoController {
         'comment_id',
         'gallery_id',
         'theme_color',
-        'create_date',
-        'update_date',
+        'create_time',
+        'update_time',
       ]),
       userId: item.user_id,
       authorName: item.author_name || item.author_username,
@@ -68,8 +68,8 @@ export default class PhotoController {
       commentId: item.comment_id,
       galleryId: item.gallery_id,
       themeColor: item.theme_color,
-      createDate: item.create_date,
-      updateDate: item.update_date,
+      createDate: item.create_time,
+      updateDate: item.update_time,
     }));
     return {
       retCode: '0',
@@ -113,8 +113,8 @@ export default class PhotoController {
           'comment_id',
           'gallery_id',
           'theme_color',
-          'create_date',
-          'update_date',
+          'create_time',
+          'update_time',
           'tags',
         ]),
         userId: data.user_id,
@@ -126,8 +126,8 @@ export default class PhotoController {
         themeColor: data.theme_color,
         tags,
         exifData,
-        createDate: data.create_date,
-        updateDate: data.update_date,
+        createDate: data.create_time,
+        updateDate: data.update_time,
       };
     };
     const photoInfo = (await PhotoModel.getPhotoInfo(+params?.id))[0];

@@ -33,7 +33,7 @@ const getPhotoList = async (
   a LEFT JOIN user b
     ON a.user_id = b.id
   order by
-    update_date
+    update_time
   desc LIMIT ${(pageIndex - 1) * pageSize},${pageSize};`);
   const count = (await getPhotoTotalCount())?.[0]?.total;
   return { list, count };
