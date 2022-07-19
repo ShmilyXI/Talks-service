@@ -2426,3 +2426,51 @@ https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/a867f08c-575a-4a89-ac96-1f40
 2022-07-15 15:24:59 [PicGo INFO] Uploading... Current uploader is [github] 
 2022-07-15 15:25:05 [PicGo SUCCESS] 
 https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/907cccf0-4f69-43f6-b622-777f12fd7508-1c9792af-dd42-4399-a6aa-977923b0ee8e-cecd8232-d5e3-4be0-978e-4fe2285d3bc1-wil-stewart-K_TbABnVzHo-unsplash.jpg 
+2022-07-19 10:14:15 [PicGo INFO] Before transform 
+2022-07-19 10:14:15 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-19 10:14:15 [PicGo INFO] Before upload 
+2022-07-19 10:14:15 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-19 10:14:23 [PicGo WARN] failed 
+2022-07-19 10:14:23 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-19 10:16:03 [PicGo INFO] Before transform 
+2022-07-19 10:16:03 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-19 10:16:03 [PicGo INFO] Before upload 
+2022-07-19 10:16:03 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-19 10:16:09 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/1e12054e-3f31-4d95-a75c-07e1f44c7d62-IMG_2017.jpg 
+2022-07-19 11:34:21 [PicGo INFO] Before transform 
+2022-07-19 11:34:21 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-19 11:34:22 [PicGo INFO] Before upload 
+2022-07-19 11:34:22 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-19 11:34:26 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/687f28ed-978c-4283-904e-01f5034f58f4-IMG_2017.jpg 
+2022-07-19 11:41:56 [PicGo INFO] Before transform 
+2022-07-19 11:41:56 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-19 11:41:56 [PicGo INFO] Before upload 
+2022-07-19 11:41:56 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-19 11:41:59 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/06391b29-79f7-4fc7-874e-68537eaf0ddf-IMG_2017.jpg 
+2022-07-19 11:43:25 [PicGo INFO] Before transform 
+2022-07-19 11:43:25 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-19 11:43:25 [PicGo INFO] Before upload 
+2022-07-19 11:43:25 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-19 11:43:30 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/927cef57-a0ce-4acc-9ec8-fd1743d2de54-IMG_2017.jpg 

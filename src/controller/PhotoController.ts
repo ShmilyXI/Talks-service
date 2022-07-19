@@ -26,6 +26,7 @@ import {
   UploadPhotoResponse,
 } from '../types/PhotoTypes';
 const getImageColors = require('get-image-colors');
+import { exiftool } from 'exiftool-vendored';
 
 @JsonController('/photo')
 export default class PhotoController {
@@ -153,6 +154,20 @@ export default class PhotoController {
       const picgo = new PicGo(path.join(__dirname, '../../picgo.config.json'));
       const defaultFileName = file.originalname;
       const fileName = `${uuidv4(6)}-${defaultFileName}`;
+      // 缓存到本地,上传后删除
+      await fs.writeFileSync(fileName, file.buffer);
+
+      // 获取照片exif信息
+      const photoExifTags = await exiftool.read(fileName);
+      const photoExifInfo = {
+        brand: photoExifTags?.Make,
+        model: photoExifTags?.Model,
+        aperture: photoExifTags?.ApertureValue,
+        focalLength: photoExifTags?.FocalLength,
+        shutterSpeed: photoExifTags?.ShutterSpeed,
+        iso: photoExifTags?.ISO,
+      };
+
       // 获取主题色
       const themeColor = (
         await getImageColors(file.buffer, {
@@ -169,6 +184,7 @@ export default class PhotoController {
             retCode: '0',
             data: {
               themeColor: themeColor?.[0],
+              photoExifInfo,
               ...ctx?.output?.[0],
             },
           });
@@ -184,7 +200,7 @@ export default class PhotoController {
       await fs.unlinkSync(fileName);
       return response;
     } catch (error) {
-      return { retCode: '-1', message: error };
+      return { retCode: '-1', message: error?.message };
     }
   }
 
@@ -195,13 +211,21 @@ export default class PhotoController {
     @Body() data: PublishPhotoRequest,
   ): Promise<PublishPhotoResponse> {
     const token = header.authorization;
-    const { url, width, height, title, themeColor } = data || {};
+    const {
+      url,
+      width,
+      height,
+      title,
+      themeColor,
+      photoExifInfo = {},
+    } = data || {};
     if (!token || !url || !width || !height || !title || !themeColor) {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
     const values = {
       ...data,
+      ...photoExifInfo,
       tags: (data?.tags || [])?.join(','),
       userId: tokenInfo?.id,
     };

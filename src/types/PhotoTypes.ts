@@ -74,7 +74,9 @@ export interface UploadPhotoResponse extends common.Response {
     themeColor: string;
     type: string;
     width: number;
+    photoExifInfo?: ExifData;
   };
+  
 }
 
 export interface IItem {
@@ -93,6 +95,7 @@ export interface PublishPhotoRequest {
   mood: string;
   place: string;
   tags: string[];
+  photoExifInfo?: ExifData;
 }
 export interface PublishPhotoResponse extends common.Response {
   data?: {
