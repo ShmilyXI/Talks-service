@@ -2474,3 +2474,57 @@ https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/06391b29-79f7-4fc7-874e-6853
 2022-07-19 11:43:25 [PicGo INFO] Uploading... Current uploader is [github] 
 2022-07-19 11:43:30 [PicGo SUCCESS] 
 https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/927cef57-a0ce-4acc-9ec8-fd1743d2de54-IMG_2017.jpg 
+2022-07-20 17:18:35 [PicGo INFO] Before transform 
+2022-07-20 17:18:35 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-20 17:18:35 [PicGo INFO] Before upload 
+2022-07-20 17:18:35 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-20 17:18:42 [PicGo WARN] failed 
+2022-07-20 17:18:42 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-20 17:18:55 [PicGo INFO] Before transform 
+2022-07-20 17:18:55 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-20 17:18:55 [PicGo INFO] Before upload 
+2022-07-20 17:18:55 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-20 17:19:03 [PicGo WARN] failed 
+2022-07-20 17:19:03 [PicGo ERROR] 
+------Error Stack Begin------
+StatusCodeError: 401 - {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+    at new StatusCodeError (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/errors.js:32:15)
+    at Request.plumbing.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:104:33)
+    at Request.RP$callback [as _callback] (/Users/xiao/WorkShop/Talks-service/node_modules/request-promise-core/lib/plumbing.js:46:31)
+    at Request.self.callback (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1154:10)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at IncomingMessage.<anonymous> (/Users/xiao/WorkShop/Talks-service/node_modules/request/request.js:1076:12)
+    at Object.onceWrapper (events.js:481:28)
+    at IncomingMessage.emit (events.js:387:35)
+    at IncomingMessage.emit (domain.js:470:12)
+    at endReadableNT (internal/streams/readable.js:1317:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+-------Error Stack End------- 
+2022-07-20 17:19:52 [PicGo INFO] Before transform 
+2022-07-20 17:19:52 [PicGo INFO] Transforming... Current transformer is [path] 
+2022-07-20 17:19:52 [PicGo INFO] Before upload 
+2022-07-20 17:19:52 [PicGo INFO] Uploading... Current uploader is [github] 
+2022-07-20 17:19:57 [PicGo SUCCESS] 
+https://cdn.jsdelivr.net/gh/ShmilyXI/Gallerys/Talks/Avatars/4380da9d-c056-466e-b336-30472824e7e3-WechatIMG10.jpeg 

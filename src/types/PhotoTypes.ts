@@ -102,3 +102,12 @@ export interface PublishPhotoResponse extends common.Response {
     id: string;
   };
 }
+
+export interface GetPhotoListByUserIdRequest {
+  id: number;
+}
+export interface GetPhotoListByUserIdResponse extends common.Response {
+  data?: {
+    list: GalleryPhotoItem[];
+  };
+}

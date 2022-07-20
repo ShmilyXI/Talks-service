@@ -25,6 +25,7 @@ import {
 const getImageColors = require('get-image-colors');
 import { exiftool } from 'exiftool-vendored';
 import UserModel from '../model/UserModel';
+import { formatPhotoInfo } from '../utils/util';
 
 @JsonController('/photo')
 export default class PhotoController {
@@ -89,48 +90,6 @@ export default class PhotoController {
     }
     const token = header.authorization;
     const tokenInfo: any = await tools.verToken(token);
-    const formatPhotoInfo = (data) => {
-      const tags = data?.tags ? data?.tags?.split(',') : [];
-      const exifData = {
-        brand: data.exif_brand,
-        model: data.exif_model,
-        aperture: data.exif_aperture,
-        focalLength: data.exif_focal_length,
-        shutterSpeed: data.exif_shutter_speed,
-        iso: data.exif_iso,
-      };
-      return {
-        ..._.omit(data, [
-          'exif_aperture',
-          'exif_brand',
-          'exif_focal_length',
-          'exif_iso',
-          'exif_model',
-          'exif_shutter_speed',
-          'user_id',
-          'author_name',
-          'view_count',
-          'avatar_url',
-          'comment_id',
-          'gallery_id',
-          'theme_color',
-          'create_time',
-          'update_time',
-          'tags',
-        ]),
-        userId: data.user_id,
-        authorName: data.author_name || data.author_username,
-        avatarUrl: data.avatar_url,
-        commentId: data.comment_id,
-        galleryId: data.gallery_id,
-        viewCount: data.view_count,
-        themeColor: data.theme_color,
-        tags,
-        exifData,
-        createDate: data.create_time,
-        updateDate: data.update_time,
-      };
-    };
     const photoInfo = (await PhotoModel.getPhotoInfo(+params?.id))[0];
 
     const photoList =
@@ -147,6 +106,25 @@ export default class PhotoController {
 
     const data = {
       index,
+      list: _.map(photoList, (v) => formatPhotoInfo(v)),
+    };
+    return {
+      retCode: '0',
+      data,
+    };
+  }
+  // 获取照片列表,根据用户id
+  @Get('/get-photo-list-by-user-id')
+  async getPhotoListByUserId(
+    @QueryParams() params: PhotoTypes.GetPhotoListByUserIdRequest,
+  ): Promise<PhotoTypes.GetPhotoListByUserIdResponse> {
+    const { id } = params;
+    if (_.isNil(id)) {
+      return { retCode: '-1', message: '参数错误' };
+    }
+    const photoList = (await PhotoModel.getPhotoListByUserId(+id)) || [];
+
+    const data = {
       list: _.map(photoList, (v) => formatPhotoInfo(v)),
     };
     return {

@@ -21,8 +21,8 @@ const updateUserInfo = async (
   return await query(
     `UPDATE user SET display_name = '${values.displayName || ''}', email = '${
       values.email || ''
-    }', individual_resume = '${values.individualResume || ''}', location = '${
-      values.location || ''
+    }', individual_resume = '${values.individualResume || ''}', place = '${
+      values.place || ''
     }', username = '${values.userName || ''}', avatar_url = '${
       values.avatarUrl || ''
     }' WHERE id = '${values.id}';`,

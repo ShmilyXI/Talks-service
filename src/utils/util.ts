@@ -2,6 +2,7 @@ import { FilterXSS, getDefaultWhiteList } from 'xss';
 // @ts-ignore
 import { getDefaultWhiteList as getDefaultCssWhiteList } from 'cssfilter';
 import query from '../sql/query';
+import _ from 'lodash';
 
 /**
  * 数据安全处理，防止xss注入
@@ -72,3 +73,47 @@ export const toHump = (str: string): string =>
 // 驼峰转下划线
 export const toLine = (str: string): string =>
   str.replace(/([A-Z])/g, '_$1').toLowerCase();
+
+// 格式化照片字段
+export const formatPhotoInfo = (data) => {
+  const tags = data?.tags ? data?.tags?.split(',') : [];
+  const exifData = {
+    brand: data.exif_brand,
+    model: data.exif_model,
+    aperture: data.exif_aperture,
+    focalLength: data.exif_focal_length,
+    shutterSpeed: data.exif_shutter_speed,
+    iso: data.exif_iso,
+  };
+  return {
+    ..._.omit(data, [
+      'exif_aperture',
+      'exif_brand',
+      'exif_focal_length',
+      'exif_iso',
+      'exif_model',
+      'exif_shutter_speed',
+      'user_id',
+      'author_name',
+      'view_count',
+      'avatar_url',
+      'comment_id',
+      'gallery_id',
+      'theme_color',
+      'create_time',
+      'update_time',
+      'tags',
+    ]),
+    userId: data.user_id,
+    authorName: data.author_name || data.author_username,
+    avatarUrl: data.avatar_url,
+    commentId: data.comment_id,
+    galleryId: data.gallery_id,
+    viewCount: data.view_count,
+    themeColor: data.theme_color,
+    tags,
+    exifData,
+    createDate: data.create_time,
+    updateDate: data.update_time,
+  };
+};

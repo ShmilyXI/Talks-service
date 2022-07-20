@@ -3,12 +3,8 @@ import {
   Body,
   Get,
   Post,
-  Put,
-  Delete,
-  Param,
   Ctx,
   QueryParams,
-  Header,
   UploadedFile,
   HeaderParams,
 } from 'routing-controllers';
@@ -18,7 +14,6 @@ import jwt from 'jsonwebtoken';
 import check from '../utils/regExp';
 //解析token
 import tools from '../utils/tool';
-import { setTime } from '../utils/util';
 import { Context } from 'koa';
 import UserModel from '../model/UserModel';
 import * as UserTypes from '../types/UserTypes';

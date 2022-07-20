@@ -17,6 +17,21 @@ const getPhotoJoinUserList = async (id: number): Promise<any> =>
       ON a.user_id = b.id;
     `);
 
+// 获取照片列表,根据用户id
+const getPhotoListByUserId = async (id: number): Promise<any> =>
+  await query(`
+    select
+      a.*,
+      b.telephone,
+      b.avatar_url,
+      b.display_name as author_name,
+      b.username as author_username
+    from photo
+    a LEFT JOIN user b
+      ON a.user_id = b.id
+    where a.user_id = '${id}';
+    `);
+
 // 分页获取照片列表
 const getPhotoList = async (
   pageIndex: number,
@@ -70,23 +85,14 @@ const insertPhotoInfo = async ({
       themeColor || ''
     }', '${place || ''}', '${tags || ''}', '${mood || ''}', '${
       shootingDate || ''
-    }', '${
-      brand || ''
-    }', '${
-      model || ''
-    }', '${
-      aperture || ''
-    }', '${
+    }', '${brand || ''}', '${model || ''}', '${aperture || ''}', '${
       focalLength || ''
-    }', '${
-      shutterSpeed || ''
-    }', '${
-      iso || ''
-    }');`,
+    }', '${shutterSpeed || ''}', '${iso || ''}');`,
   );
 
 export default {
   getPhotoJoinUserList,
+  getPhotoListByUserId,
   getPhotoList,
   getPhotoInfo,
   insertPhotoInfo,
