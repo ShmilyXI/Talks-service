@@ -8,9 +8,10 @@ const getPhotoCommentList = async (id: number): Promise<any> =>
       a.*,
       b.display_name
     from comment
-    a LEFT JOIN user b
-    ON a.user_id = b.id
-    where photo_id = '${id}' and comment_level = 1 and type = 1 ORDER BY top_status desc ,create_time desc;
+    a LEFT OUTER JOIN user b
+      ON a.user_id = b.id
+    where photo_id = '${id}' and comment_level = 1 and a.type = 1 and a.is_delete = 0
+    ORDER BY top_status desc ,create_time desc;
     `,
   );
 
@@ -25,10 +26,11 @@ const getChildrenPhotoCommentList = async (
       a.*,
       b.display_name
     from comment
-    a LEFT JOIN user b
-    ON a.user_id = b.id
-    where parent_comment_id = '${parentId}' and photo_id = '${id}' and comment_level = 2 and type = 1 ORDER BY create_time;
-    `
+    a LEFT OUTER JOIN user b
+      ON a.user_id = b.id
+    where parent_comment_id = '${parentId}' and photo_id = '${id}' and comment_level = 2 and a.type = 1 and a.is_delete = 0
+    ORDER BY create_time;
+    `,
   );
 
 // 新增照片评论
@@ -62,8 +64,14 @@ const insertPhotoComment = async (
   );
 };
 
+// 删除照片评论
+const deletePhotoComment = async (id: number): Promise<any> => {
+  return await query(`UPDATE comment SET is_delete = 1 WHERE id = '${id}';`);
+};
+
 export default {
   getPhotoCommentList,
   getChildrenPhotoCommentList,
   insertPhotoComment,
+  deletePhotoComment,
 };

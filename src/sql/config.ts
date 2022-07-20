@@ -5,5 +5,6 @@ const mysqlConfig = {
   host: '127.0.0.1', //服务器地址
   port: 3306, //数据库端口
   timezone: '08:00',
+  charset: 'UTF8MB4',
 };
 export default mysqlConfig;

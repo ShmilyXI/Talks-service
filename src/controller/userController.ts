@@ -26,11 +26,14 @@ import {
   UpdateUserInfoRequest,
   UpdateUserInfoResponse,
   UploadAvatarResponse,
+  UserLikedRequest,
+  UserLikedResponse,
 } from '../types/UserTypes';
 import { PicGo } from 'picgo';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
+import _ from 'lodash';
 
 //统一设置token有效时间
 const expireTime = '999h';
@@ -218,7 +221,13 @@ export default class UserController {
   ): Promise<UpdateUserInfoResponse> {
     const token = header.authorization;
     const { displayName, avatarUrl, email, userName } = data || {};
-    if (!token || !displayName || !avatarUrl || !email || !userName) {
+    if (
+      _.isNil(token) ||
+      _.isNil(displayName) ||
+      _.isNil(avatarUrl) ||
+      _.isNil(email) ||
+      _.isNil(userName)
+    ) {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
@@ -232,6 +241,41 @@ export default class UserController {
     return {
       retCode: '0',
       data: userInfo,
+    };
+  }
+
+  // 用户点赞
+  @Post('/user-liked')
+  async userLiked(
+    @HeaderParams() header,
+    @Body() data: UserLikedRequest,
+  ): Promise<UserLikedResponse> {
+    const token = header.authorization;
+    const { likedId, likedStatus, likedType } = data || {};
+
+    if (_.isNil(likedId) || _.isNil(likedStatus) || _.isNil(likedType)) {
+      return { retCode: '-1', message: '参数错误' };
+    }
+
+    const tokenInfo: any = await tools.verToken(token);
+    const likedInfo = (
+      await UserModel.getUserLikedInfo(likedType, likedId, tokenInfo?.id)
+    )[0];
+
+    const values: any = {
+      ...data,
+      userId: tokenInfo?.id,
+    };
+
+    if (likedInfo?.id) {
+      await UserModel.updateUserLiked(likedInfo?.id, likedStatus);
+    } else {
+      await UserModel.insertUserLiked(values);
+    }
+
+    return {
+      retCode: '0',
+      data: likedInfo,
     };
   }
 }

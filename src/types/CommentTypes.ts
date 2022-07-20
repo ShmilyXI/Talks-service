@@ -1,101 +1,68 @@
 import { common } from './types';
 
-type ExifData = {
-  brand: string;
-  model: string;
-  aperture: string;
-  focalLength: string;
-  shutterSpeed: string;
-  iso: string;
+export type CommentItem = {
+  id: number;
+  user_id: number;
+  username: string;
+  display_name: string;
+  user_avatar_url: string;
+  photo_id: number;
+  content: string;
+  likedStatus: number;
+  liked_count: number;
+  status: number;
+  top_status: number;
+  type: number;
+  comment_level: number;
+  parent_comment_id: number;
+  parent_comment_user_id: number;
+  reply_comment_id: number;
+  reply_comment_user_id: number;
+  create_time: string;
+  replyUserInfo?: {
+    id: number;
+    username: string;
+    display_name: string;
+  };
+  children?: CommentItem[];
 };
-export interface BasePhotoInfo {
+
+export type CommentData = {
+  content: string;
+  commentLevel: 1 | 2;
+  parentCommentId?: number;
+  parentCommentUserId?: number;
+  replyCommentId?: number;
+  replyCommentUserId?: number;
+};
+export interface GetPhotoCommentListResponse extends common.Response {
+  data: {
+    list?: CommentItem[];
+  };
+}
+export interface GetPhotoCommentListRequest {
   id: number;
-  userId: string;
-  authorName: string;
-  avatarUrl: string;
-  commentId: number;
-  galleryId: number;
-  url: string;
-  width: number;
-  height: number;
-  title: string;
-  description: string;
-  viewCount: number;
-  themeColor: string;
-  place: string;
-  tags: string[];
-  mood: string;
-  exifData: ExifData;
-  createDate: string;
-  updateDate: string;
 }
-
-export interface PhotoDetailInfoResponse extends common.Response {
-  data?: { index: number; list: BasePhotoInfo[] };
-}
-export interface PhotoDetailInfoRequest {
-  id: string | number;
-}
-
-export interface GalleryPhotoItem {
-  id: number;
-  userId: string;
-  commentId: number;
-  galleryId: number;
-  url: string;
-  width: number;
-  height: number;
-  title: string;
-  description: string;
-  viewCount: number;
-  themeColor: string;
-  place: string;
-  tags: string;
-  updateDate: string;
-  authorName: string;
-  avatarUrl: string;
-}
-export interface GetGalleryPhotoListResponse extends common.Response {
+export interface AddPhotoCommentResponse extends common.Response {
   data?: {
-    list: GalleryPhotoItem[];
-    total: number;
+    id: number;
   };
 }
-export interface GetGalleryPhotoListRequest {
-  pageIndex: number;
-  pageSize: number;
+export interface AddPhotoCommentRequest {
+  photoId: number;
+  content: string;
+  commentLevel: number;
+  type: number;
+  parentCommentId?: number;
+  parentCommentUserId?: number;
+  replyCommentId?: number;
+  replyCommentUserId?: number;
 }
-export interface UploadPhotoResponse extends common.Response {
+export interface DeletePhotoCommentResponse extends common.Response {
   data?: {
-    extname: string;
-    fileName: string;
-    height: number;
-    imgUrl: string;
-    themeColor: string;
-    type: string;
-    width: number;
+    id: number;
   };
 }
-
-export interface IItem {
-  label: string;
-  value: string;
-}
-export interface PublishPhotoRequest {
-  title: string;
-  description?: string;
-  url: string;
-  width: number;
-  height: number;
-  galleryList?: number[];
-  shootingDate: string;
-  themeColor: string;
-  mood: string;
-  place: string;
-  tags: string[];
-}
-export interface PublishPhotoResponse extends common.Response {
-  data?: {
-    id: string;
-  };
+export interface DeletePhotoCommentRequest {
+  id?: number;
 }

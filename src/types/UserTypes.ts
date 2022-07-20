@@ -51,3 +51,12 @@ export interface UpdateUserInfoRequest {
 export interface UpdateUserInfoResponse extends common.Response {
   data?: BaseUserInfo;
 }
+
+export interface UserLikedRequest {
+  likedId: number;
+  likedStatus: number;
+  likedType: number;
+}
+export interface UserLikedResponse extends common.Response {
+  data?: void;
+}

@@ -25,6 +25,7 @@ export interface BasePhotoInfo {
   place: string;
   tags: string[];
   mood: string;
+  likedStatus?: number;
   exifData: ExifData;
   createDate: string;
   updateDate: string;
@@ -76,7 +77,6 @@ export interface UploadPhotoResponse extends common.Response {
     width: number;
     photoExifInfo?: ExifData;
   };
-  
 }
 
 export interface IItem {
