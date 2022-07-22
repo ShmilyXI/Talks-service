@@ -1,5 +1,16 @@
 import query from '../sql/query';
 
+
+// 获取照片评论列表,根据照片id
+const getCommentListByPhotoId = async (id: number): Promise<any> =>
+  await query(
+    `
+    select * from comment
+    where photo_id = '${id}' and is_delete = 0;
+    `,
+  );
+
+
 // 获取照片一级评论列表
 const getPhotoCommentList = async (id: number): Promise<any> =>
   await query(
@@ -70,6 +81,7 @@ const deletePhotoComment = async (id: number): Promise<any> => {
 };
 
 export default {
+  getCommentListByPhotoId,
   getPhotoCommentList,
   getChildrenPhotoCommentList,
   insertPhotoComment,

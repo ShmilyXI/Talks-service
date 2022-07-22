@@ -3,20 +3,6 @@ import query from '../sql/query';
 const getPhotoInfo = async (id: number): Promise<any> =>
   await query(`SELECT * FROM photo WHERE id = '${id}';`);
 
-// 获取照片及相关用户列表
-const getPhotoJoinUserList = async (id: number): Promise<any> =>
-  await query(`
-    select
-      a.*,
-      b.telephone,
-      b.avatar_url,
-      b.display_name as author_name,
-      b.username as author_username
-    from photo
-    a LEFT JOIN user b
-      ON a.user_id = b.id;
-    `);
-
 // 获取照片列表,根据用户id
 const getPhotoListByUserId = async (id: number): Promise<any> =>
   await query(`
@@ -29,7 +15,7 @@ const getPhotoListByUserId = async (id: number): Promise<any> =>
     from photo
     a LEFT JOIN user b
       ON a.user_id = b.id
-    where a.user_id = '${id}';
+    where a.user_id = '${id}' and a.is_delete = 0;
     `);
 
 // 分页获取照片列表
@@ -47,6 +33,7 @@ const getPhotoList = async (
   from photo
   a LEFT JOIN user b
     ON a.user_id = b.id
+  where a.is_delete = 0
   order by
     update_time
   desc LIMIT ${(pageIndex - 1) * pageSize},${pageSize};`);
@@ -91,7 +78,6 @@ const insertPhotoInfo = async ({
   );
 
 export default {
-  getPhotoJoinUserList,
   getPhotoListByUserId,
   getPhotoList,
   getPhotoInfo,

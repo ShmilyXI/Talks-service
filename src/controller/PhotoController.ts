@@ -26,12 +26,14 @@ const getImageColors = require('get-image-colors');
 import { exiftool } from 'exiftool-vendored';
 import UserModel from '../model/UserModel';
 import { formatPhotoInfo } from '../utils/util';
+import CommentModel from '../model/CommentModel';
 
 @JsonController('/photo')
 export default class PhotoController {
   // 获取照片列表
   @Post('/gallery-photo-list')
   async galleryPhotoList(
+    @HeaderParams() header,
     @Body() data: GetGalleryPhotoListRequest,
   ): Promise<PhotoTypes.GetGalleryPhotoListResponse> {
     const { pageIndex, pageSize } = data || {};
@@ -41,35 +43,64 @@ export default class PhotoController {
         message: '参数错误',
       };
     }
+    const token = header.authorization;
+    const tokenInfo: any = await tools.verToken(token);
     const photoData = await PhotoModel.getPhotoList(pageIndex, pageSize);
-    const list = (photoData?.list).map((item: any) => ({
-      ..._.omit(item, [
-        'exif_aperture',
-        'exif_brand',
-        'exif_focal_length',
-        'exif_iso',
-        'exif_model',
-        'exif_shutter_speed',
-        'user_id',
-        'author_name',
-        'avatar_url',
-        'view_count',
-        'comment_id',
-        'gallery_id',
-        'theme_color',
-        'create_time',
-        'update_time',
-      ]),
-      userId: item.user_id,
-      authorName: item.author_name || item.author_username,
-      viewCount: item.view_count,
-      avatarUrl: item.avatar_url,
-      commentId: item.comment_id,
-      galleryId: item.gallery_id,
-      themeColor: item.theme_color,
-      createDate: item.create_time,
-      updateDate: item.update_time,
-    }));
+
+    const list = photoData?.list;
+    for (let index = 0; index < list.length; index++) {
+      const item = list[index];
+      // 获取照片评论数量
+      const commentCount = (await CommentModel.getCommentListByPhotoId(item.id))
+        ?.length;
+      // 获取所有用户与当前照片点赞信息
+      const likedAllInfo = await UserModel.getUserLikedInfo(
+        0,
+        item.id,
+        null,
+        1,
+      );
+      // 获取当前用户与当前评论点赞信息
+      const curLikedInfo = likedAllInfo.find(
+        (v) => v.user_id === tokenInfo?.id,
+      );
+      if (curLikedInfo?.id) {
+        list[index].likedStatus = curLikedInfo.liked_status;
+      }
+      // 当前作品点赞数量
+      if (likedAllInfo?.length) {
+        list[index].liked_count = likedAllInfo.length;
+      }
+      list[index] = {
+        ..._.omit(item, [
+          'exif_aperture',
+          'exif_brand',
+          'exif_focal_length',
+          'exif_iso',
+          'exif_model',
+          'exif_shutter_speed',
+          'user_id',
+          'author_name',
+          'avatar_url',
+          'view_count',
+          'comment_id',
+          'gallery_id',
+          'theme_color',
+          'create_time',
+          'update_time',
+        ]),
+        userId: item.user_id,
+        authorName: item.author_name || item.author_username,
+        viewCount: item.view_count,
+        avatarUrl: item.avatar_url,
+        commentId: item.comment_id,
+        galleryId: item.gallery_id,
+        themeColor: item.theme_color,
+        commentCount,
+        createDate: item.create_time,
+        updateDate: item.update_time,
+      };
+    }
     return {
       retCode: '0',
       data: {
@@ -93,7 +124,8 @@ export default class PhotoController {
     const photoInfo = (await PhotoModel.getPhotoInfo(+params?.id))[0];
 
     const photoList =
-      (await PhotoModel.getPhotoJoinUserList(photoInfo?.user_id)) || [];
+      (await PhotoModel.getPhotoListByUserId(photoInfo?.user_id)) || [];
+
     const index = _.findIndex(photoList, (v) => v.id === +params?.id);
 
     // 获取当前用户与当前作品点赞信息
@@ -116,13 +148,42 @@ export default class PhotoController {
   // 获取照片列表,根据用户id
   @Get('/get-photo-list-by-user-id')
   async getPhotoListByUserId(
+    @HeaderParams() header,
     @QueryParams() params: PhotoTypes.GetPhotoListByUserIdRequest,
   ): Promise<PhotoTypes.GetPhotoListByUserIdResponse> {
     const { id } = params;
     if (_.isNil(id)) {
       return { retCode: '-1', message: '参数错误' };
     }
+    const token = header.authorization;
+    const tokenInfo: any = await tools.verToken(token);
     const photoList = (await PhotoModel.getPhotoListByUserId(+id)) || [];
+
+    for (let index = 0; index < photoList.length; index++) {
+      const item = photoList[index];
+      // 获取照片评论数量
+      const commentCount = (await CommentModel.getCommentListByPhotoId(item.id))
+        ?.length;
+      photoList[index].commentCount = commentCount;
+       // 获取所有用户与当前照片点赞信息
+       const likedAllInfo = await UserModel.getUserLikedInfo(
+        0,
+        item.id,
+        null,
+        1,
+      );
+      // 获取当前用户与当前评论点赞信息
+      const curLikedInfo = likedAllInfo.find(
+        (v) => v.user_id === tokenInfo?.id,
+      );
+      if (curLikedInfo?.id) {
+        photoList[index].likedStatus = curLikedInfo.liked_status;
+      }
+      // 当前作品点赞数量
+      if (likedAllInfo?.length) {
+        photoList[index].liked_count = likedAllInfo.length;
+      }
+    }
 
     const data = {
       list: _.map(photoList, (v) => formatPhotoInfo(v)),
