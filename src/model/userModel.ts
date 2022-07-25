@@ -19,13 +19,18 @@ const updateUserInfo = async (
   values: UpdateUserInfoRequest & { id: string },
 ): Promise<any> => {
   return await query(
-    `UPDATE user SET display_name = '${values.displayName || ''}', email = '${
-      values.email || ''
-    }', individual_resume = '${values.individualResume || ''}', place = '${
-      values.place || ''
-    }', username = '${values.userName || ''}', avatar_url = '${
-      values.avatarUrl || ''
-    }' WHERE id = '${values.id}';`,
+    `UPDATE user SET display_name = '${values?.displayName || ''}', email = '${
+      values?.email || ''
+    }', individual_resume = '${values?.individualResume || ''}', username = '${
+      values?.userName || ''
+    }', avatar_url = '${values?.avatarUrl || ''}', place = '${
+      values?.place || ''
+    }', place_id = '${values?.placeId || ''}', location = '${
+      values?.location || ''
+    }', provincial_name = '${values?.provincialName || ''}', city_name = '${
+      values?.cityName || ''
+    }', area_name = '${values?.areaName || ''}'
+     WHERE id = '${values.id}';`,
   );
 };
 

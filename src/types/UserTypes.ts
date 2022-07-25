@@ -3,6 +3,12 @@ export interface BaseUserInfo {
   id: string;
   username: string;
   telephone: string;
+  place: string;
+  place_id: string;
+  location: string;
+  provincial_name: string;
+  city_name: string;
+  area_name: string;
   avatar_url: string;
   create_time: string;
   update_time: string;
@@ -10,7 +16,6 @@ export interface BaseUserInfo {
   display_name: string;
   email: string;
   individual_resume?: string;
-  place?: string;
 }
 
 export interface GetUserInfoRequest {
@@ -44,8 +49,13 @@ export interface UpdateUserInfoRequest {
   avatarUrl: string;
   displayName: string;
   email: string;
+  place: string;
+  placeId: string;
+  location: string;
+  provincialName: string;
+  cityName: string;
+  areaName: string;
   individualResume?: string;
-  place?: string;
   userName: string;
 }
 export interface UpdateUserInfoResponse extends common.Response {

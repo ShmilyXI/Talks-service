@@ -55,6 +55,11 @@ const insertPhotoInfo = async ({
   description,
   themeColor,
   place,
+  placeId,
+  location,
+  provincialName,
+  cityName,
+  areaName,
   tags,
   mood,
   shootingDate,
@@ -66,15 +71,17 @@ const insertPhotoInfo = async ({
   iso,
 }: any): Promise<any> =>
   await query(
-    `INSERT INTO photo(user_id, url, width, height, title, description, theme_color, place, tags, mood, shooting_date, exif_brand, exif_model, exif_aperture, exif_focal_length, exif_shutter_speed, exif_iso) VALUES('${userId}', '${
+    `INSERT INTO photo(user_id, url, width, height, title, description, theme_color, place, place_id, location, provincial_name, city_name, area_name, tags, mood, shooting_date, exif_brand, exif_model, exif_aperture, exif_focal_length, exif_shutter_speed, exif_iso) VALUES('${userId}', '${
       url || ''
     }', '${width}', '${height}', '${title || ''}', '${description || ''}', '${
       themeColor || ''
-    }', '${place || ''}', '${tags || ''}', '${mood || ''}', '${
-      shootingDate || ''
-    }', '${brand || ''}', '${model || ''}', '${aperture || ''}', '${
-      focalLength || ''
-    }', '${shutterSpeed || ''}', '${iso || ''}');`,
+    }', '${place || ''}','${placeId || ''}','${location || ''}','${
+      provincialName || ''
+    }','${cityName || ''}','${areaName || ''}', '${tags || ''}', '${
+      mood || ''
+    }', '${shootingDate || ''}', '${brand || ''}', '${model || ''}', '${
+      aperture || ''
+    }', '${focalLength || ''}', '${shutterSpeed || ''}', '${iso || ''}');`,
   );
 
 export default {

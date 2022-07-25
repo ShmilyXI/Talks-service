@@ -83,20 +83,28 @@ export default class PhotoController {
           'author_name',
           'avatar_url',
           'view_count',
+          'place_id',
           'comment_id',
           'gallery_id',
           'theme_color',
+          'provincial_name',
+          'city_name',
+          'area_name',
           'create_time',
           'update_time',
         ]),
         userId: item.user_id,
         authorName: item.author_name || item.author_username,
         viewCount: item.view_count,
+        placeId: item.place_id,
         avatarUrl: item.avatar_url,
         commentId: item.comment_id,
         galleryId: item.gallery_id,
         themeColor: item.theme_color,
         commentCount,
+        provincialName: item.provincial_name,
+        cityName: item.city_name,
+        areaName: item.area_name,
         createDate: item.create_time,
         updateDate: item.update_time,
       };
@@ -165,8 +173,8 @@ export default class PhotoController {
       const commentCount = (await CommentModel.getCommentListByPhotoId(item.id))
         ?.length;
       photoList[index].commentCount = commentCount;
-       // 获取所有用户与当前照片点赞信息
-       const likedAllInfo = await UserModel.getUserLikedInfo(
+      // 获取所有用户与当前照片点赞信息
+      const likedAllInfo = await UserModel.getUserLikedInfo(
         0,
         item.id,
         null,
