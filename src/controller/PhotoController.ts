@@ -20,6 +20,8 @@ import {
   GetGalleryPhotoListRequest,
   PublishPhotoRequest,
   PublishPhotoResponse,
+  UpdatePhotoRequest,
+  UpdatePhotoResponse,
   UploadPhotoResponse,
 } from '../types/PhotoTypes';
 const getImageColors = require('get-image-colors');
@@ -90,6 +92,8 @@ export default class PhotoController {
           'provincial_name',
           'city_name',
           'area_name',
+          'shooting_date',
+          'show_comments',
           'create_time',
           'update_time',
         ]),
@@ -99,12 +103,14 @@ export default class PhotoController {
         placeId: item.place_id,
         avatarUrl: item.avatar_url,
         commentId: item.comment_id,
-        galleryId: item.gallery_id,
+        galleryIds: _.map(item?.gallery_ids?.split(',') || [], Number),
         themeColor: item.theme_color,
+        showComments: item.show_comments === 0,
         commentCount,
         provincialName: item.provincial_name,
         cityName: item.city_name,
         areaName: item.area_name,
+        shootingDate: item.shooting_date,
         createDate: item.create_time,
         updateDate: item.update_time,
       };
@@ -290,10 +296,27 @@ export default class PhotoController {
     const values = {
       ...data,
       ...photoExifInfo,
-      tags: (data?.tags || [])?.join(','),
       userId: tokenInfo?.id,
     };
     const result = await PhotoModel.insertPhotoInfo(values);
+
+    return {
+      retCode: '0',
+      data: { id: result?.insertId },
+    };
+  }
+
+  // 编辑照片
+  @Post('/update-photo')
+  async updatePhoto(@Body() data: UpdatePhotoRequest): Promise<UpdatePhotoResponse> {
+    const { id, title } = data || {};
+    if (_.isNil(id) || _.isNil(title)) {
+      return { retCode: '-1', message: '参数错误' };
+    }
+    const values = {
+      ...data,
+    };
+    const result = await PhotoModel.updatePhotoInfo(values);
 
     return {
       retCode: '0',

@@ -53,6 +53,7 @@ const insertUserLiked = async (
     `INSERT INTO user_like(user_id, liked_id, liked_status, liked_type) VALUES('${values.userId}','${values.likedId}', '${values.likedStatus}', '${values.likedType}');`,
   );
 };
+
 // 用户修改点赞状态
 const updateUserLiked = async (
   id: number,

@@ -1,4 +1,5 @@
 import query from '../sql/query';
+import { UpdatePhotoRequest } from '../types/PhotoTypes';
 // 获取照片详情信息
 const getPhotoInfo = async (id: number): Promise<any> =>
   await query(`SELECT * FROM photo WHERE id = '${id}';`);
@@ -84,9 +85,28 @@ const insertPhotoInfo = async ({
     }', '${focalLength || ''}', '${shutterSpeed || ''}', '${iso || ''}');`,
   );
 
+// 修改照片信息
+const updatePhotoInfo = async (values: UpdatePhotoRequest): Promise<any> => {
+  return await query(
+    `UPDATE photo SET title = '${values.title || ''}',description = '${
+      values.description || ''
+    }',gallery_ids = '${values.galleryIds || ''}',shooting_date = '${
+      values.shootingDate || ''
+    }',mood = '${values.mood || ''}',place = '${
+      values.place || ''
+    }',place_id = '${values.placeId || ''}',location = '${
+      values.location || ''
+    }',provincial_name = '${values.provincialName || ''}',show_comments = '${
+      values.showComments || 0
+    }',city_name = '${values.cityName || ''}',area_name = '${
+      values.areaName || ''
+    }'  WHERE id = '${values.id}';`,
+  );
+};
 export default {
   getPhotoListByUserId,
   getPhotoList,
   getPhotoInfo,
   insertPhotoInfo,
+  updatePhotoInfo,
 };
