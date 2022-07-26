@@ -73,6 +73,24 @@ export default class PhotoController {
       if (likedAllInfo?.length) {
         list[index].liked_count = likedAllInfo.length;
       }
+
+      // 获取所有用户与当前照片收藏信息
+      const favoriteAllInfo = await UserModel.getUserPhotoFavoriteInfo(
+        item.id,
+        null,
+        1,
+      );
+      // 获取当前用户与当前评论收藏信息
+      const curFavoriteInfo = favoriteAllInfo.find(
+        (v) => v.user_id === tokenInfo?.id,
+      );
+      if (curFavoriteInfo?.id) {
+        list[index].favoriteStatus = curFavoriteInfo.favorite_status;
+      }
+      // 当前作品收藏数量
+      if (favoriteAllInfo?.length) {
+        list[index].favorite_count = favoriteAllInfo.length;
+      }
       list[index] = {
         ..._.omit(item, [
           'exif_aperture',
@@ -149,6 +167,13 @@ export default class PhotoController {
     if (likedInfo?.id) {
       photoList[index].likedStatus = likedInfo.liked_status;
     }
+    // 获取当前用户与当前作品收藏信息
+    const favoriteInfo = (
+      await UserModel.getUserPhotoFavoriteInfo(+params?.id, tokenInfo?.id)
+    )[0];
+    if (favoriteInfo?.id) {
+      photoList[index].favoriteStatus = favoriteInfo.favorite_status;
+    }
 
     const data = {
       index,
@@ -196,6 +221,24 @@ export default class PhotoController {
       // 当前作品点赞数量
       if (likedAllInfo?.length) {
         photoList[index].liked_count = likedAllInfo.length;
+      }
+
+      // 获取所有用户与当前照片收藏信息
+      const favoriteAllInfo = await UserModel.getUserLikedInfo(
+        item.id,
+        null,
+        1,
+      );
+      // 获取当前用户与当前评论收藏信息
+      const curFavoriteInfo = favoriteAllInfo.find(
+        (v) => v.user_id === tokenInfo?.id,
+      );
+      if (curFavoriteInfo?.id) {
+        photoList[index].favoriteStatus = curFavoriteInfo.favorite_status;
+      }
+      // 当前作品收藏数量
+      if (favoriteAllInfo?.length) {
+        photoList[index].favorite_count = favoriteAllInfo.length;
       }
     }
 
@@ -308,7 +351,9 @@ export default class PhotoController {
 
   // 编辑照片
   @Post('/update-photo')
-  async updatePhoto(@Body() data: UpdatePhotoRequest): Promise<UpdatePhotoResponse> {
+  async updatePhoto(
+    @Body() data: UpdatePhotoRequest,
+  ): Promise<UpdatePhotoResponse> {
     const { id, title } = data || {};
     if (_.isNil(id) || _.isNil(title)) {
       return { retCode: '-1', message: '参数错误' };

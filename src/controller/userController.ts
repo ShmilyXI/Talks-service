@@ -23,6 +23,8 @@ import {
   UploadAvatarResponse,
   UserLikedRequest,
   UserLikedResponse,
+  UserPhotoFavoriteRequest,
+  UserPhotoFavoriteResponse,
 } from '../types/UserTypes';
 import { PicGo } from 'picgo';
 import path from 'path';
@@ -271,6 +273,41 @@ export default class UserController {
     return {
       retCode: '0',
       data: likedInfo,
+    };
+  }
+
+  // 用户点赞
+  @Post('/user-photo-favorite')
+  async userFavorite(
+    @HeaderParams() header,
+    @Body() data: UserPhotoFavoriteRequest,
+  ): Promise<UserPhotoFavoriteResponse> {
+    const token = header.authorization;
+    const { photoId, favoriteStatus } = data || {};
+
+    if (_.isNil(photoId) || _.isNil(favoriteStatus)) {
+      return { retCode: '-1', message: '参数错误' };
+    }
+
+    const tokenInfo: any = await tools.verToken(token);
+    const favoriteInfo = (
+      await UserModel.getUserPhotoFavoriteInfo(photoId, tokenInfo?.id)
+    )[0];
+
+    const values: any = {
+      ...data,
+      userId: tokenInfo?.id,
+    };
+
+    if (favoriteInfo?.id) {
+      await UserModel.updateUserPhotoFavorite(favoriteInfo?.id, favoriteStatus);
+    } else {
+      await UserModel.insertUserPhotoFavorite(values);
+    }
+
+    return {
+      retCode: '0',
+      data: favoriteInfo,
     };
   }
 }

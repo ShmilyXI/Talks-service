@@ -1,5 +1,9 @@
 import query from '../sql/query';
-import { UpdateUserInfoRequest, UserLikedRequest } from '../types/UserTypes';
+import {
+  UpdateUserInfoRequest,
+  UserLikedRequest,
+  UserPhotoFavoriteRequest,
+} from '../types/UserTypes';
 import _ from 'lodash';
 
 //获取用户
@@ -77,6 +81,41 @@ const getUserLikedInfo = async (
     }${!_.isNil(likedStatus) ? ` and liked_status = '${likedStatus}'` : ''};`,
   );
 
+// 用户收藏
+const insertUserPhotoFavorite = async (
+  values: UserPhotoFavoriteRequest & { userId: number },
+): Promise<any> => {
+  return await query(
+    `INSERT INTO photo_favorite(user_id, photo_id, favorite_status) VALUES('${values.userId}','${values.photoId}', '${values.favoriteStatus}');`,
+  );
+};
+
+// 用户修改收藏状态
+const updateUserPhotoFavorite = async (
+  id: number,
+  favoriteStatus: number,
+): Promise<any> => {
+  return await query(
+    `UPDATE photo_favorite SET favorite_status = '${favoriteStatus}' WHERE id = '${id}';`,
+  );
+};
+
+// 获取用户收藏状态
+const getUserPhotoFavoriteInfo = async (
+  photoId: number,
+  userId?: number,
+  favoriteStatus?: number,
+): Promise<any> =>
+  await query(
+    `SELECT * FROM photo_favorite WHERE photo_id = '${photoId}' ${
+      userId ? ` and user_id = '${userId}'` : ''
+    }${
+      !_.isNil(favoriteStatus)
+        ? ` and favorite_status = '${favoriteStatus}'`
+        : ''
+    };`,
+  );
+
 export default {
   getUser,
   getTelephone,
@@ -86,4 +125,7 @@ export default {
   insertUserLiked,
   updateUserLiked,
   getUserLikedInfo,
+  insertUserPhotoFavorite,
+  updateUserPhotoFavorite,
+  getUserPhotoFavoriteInfo,
 };

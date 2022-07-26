@@ -70,3 +70,10 @@ export interface UserLikedRequest {
 export interface UserLikedResponse extends common.Response {
   data?: void;
 }
+export interface UserPhotoFavoriteRequest {
+  photoId: number;
+  favoriteStatus: number;
+}
+export interface UserPhotoFavoriteResponse extends common.Response {
+  data?: void;
+}
