@@ -9,13 +9,13 @@ export interface photo_favoriteAttributes {
   photo_id: number;
   favorite_status: number;
   is_delete: number;
-  create_time: Date;
   update_time: Date;
+  create_time: Date;
 }
 
 export type photo_favoritePk = "id";
 export type photo_favoriteId = photo_favorite[photo_favoritePk];
-export type photo_favoriteOptionalAttributes = "id" | "favorite_status" | "is_delete" | "create_time" | "update_time";
+export type photo_favoriteOptionalAttributes = "id" | "favorite_status" | "is_delete" | "update_time" | "create_time";
 export type photo_favoriteCreationAttributes = Optional<photo_favoriteAttributes, photo_favoriteOptionalAttributes>;
 
 export class photo_favorite extends Model<photo_favoriteAttributes, photo_favoriteCreationAttributes> implements photo_favoriteAttributes {
@@ -24,8 +24,8 @@ export class photo_favorite extends Model<photo_favoriteAttributes, photo_favori
   photo_id!: number;
   favorite_status!: number;
   is_delete!: number;
-  create_time!: Date;
   update_time!: Date;
+  create_time!: Date;
 
   // photo_favorite belongsTo photo via photo_id
   photo!: photo;
@@ -76,17 +76,17 @@ export class photo_favorite extends Model<photo_favoriteAttributes, photo_favori
       defaultValue: 0,
       comment: "是否逻辑删除"
     },
-    create_time: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
-      comment: "创建时间"
-    },
     update_time: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: "修改时间"
+    },
+    create_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: "创建时间"
     }
   }, {
     tableName: 'photo_favorite',

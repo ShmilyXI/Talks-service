@@ -10,7 +10,6 @@ export interface userAttributes {
   telephone: string;
   password: string;
   avatar_url?: string;
-  last_login_date?: string;
   display_name?: string;
   email?: string;
   individual_resume?: string;
@@ -21,13 +20,14 @@ export interface userAttributes {
   city_name?: string;
   area_name?: string;
   is_delete: number;
-  create_time: Date;
+  last_login_date?: string;
   update_time: Date;
+  create_time: Date;
 }
 
 export type userPk = "id";
 export type userId = user[userPk];
-export type userOptionalAttributes = "id" | "avatar_url" | "last_login_date" | "display_name" | "email" | "individual_resume" | "place" | "location" | "place_id" | "provincial_name" | "city_name" | "area_name" | "is_delete" | "create_time" | "update_time";
+export type userOptionalAttributes = "id" | "avatar_url" | "display_name" | "email" | "individual_resume" | "place" | "location" | "place_id" | "provincial_name" | "city_name" | "area_name" | "is_delete" | "last_login_date" | "update_time" | "create_time";
 export type userCreationAttributes = Optional<userAttributes, userOptionalAttributes>;
 
 export class user extends Model<userAttributes, userCreationAttributes> implements userAttributes {
@@ -36,7 +36,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   telephone!: string;
   password!: string;
   avatar_url?: string;
-  last_login_date?: string;
   display_name?: string;
   email?: string;
   individual_resume?: string;
@@ -47,8 +46,9 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   city_name?: string;
   area_name?: string;
   is_delete!: number;
-  create_time!: Date;
+  last_login_date?: string;
   update_time!: Date;
+  create_time!: Date;
 
   // user hasMany comment via parent_comment_user_id
   comments!: comment[];
@@ -140,11 +140,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       allowNull: true,
       comment: "头像url"
     },
-    last_login_date: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      comment: "最后一次登录时间"
-    },
     display_name: {
       type: DataTypes.STRING(255),
       allowNull: true,
@@ -196,17 +191,22 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       defaultValue: 0,
       comment: "是否逻辑删除"
     },
-    create_time: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
-      comment: "创建时间"
+    last_login_date: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      comment: "最后一次登录时间"
     },
     update_time: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: "修改时间"
+    },
+    create_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: "创建时间"
     }
   }, {
     tableName: 'user',

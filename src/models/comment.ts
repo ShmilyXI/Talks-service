@@ -20,12 +20,13 @@ export interface commentAttributes {
   like_count: number;
   is_delete: number;
   top_status: number;
+  update_time: Date;
   create_time: Date;
 }
 
 export type commentPk = "id";
 export type commentId = comment[commentPk];
-export type commentOptionalAttributes = "id" | "username" | "user_avatar_url" | "parent_comment_id" | "parent_comment_user_id" | "reply_comment_id" | "reply_comment_user_id" | "content" | "comment_level" | "status" | "like_count" | "is_delete" | "top_status" | "create_time";
+export type commentOptionalAttributes = "id" | "username" | "user_avatar_url" | "parent_comment_id" | "parent_comment_user_id" | "reply_comment_id" | "reply_comment_user_id" | "content" | "comment_level" | "status" | "like_count" | "is_delete" | "top_status" | "update_time" | "create_time";
 export type commentCreationAttributes = Optional<commentAttributes, commentOptionalAttributes>;
 
 export class comment extends Model<commentAttributes, commentCreationAttributes> implements commentAttributes {
@@ -45,6 +46,7 @@ export class comment extends Model<commentAttributes, commentCreationAttributes>
   like_count!: number;
   is_delete!: number;
   top_status!: number;
+  update_time!: Date;
   create_time!: Date;
 
   // comment hasMany photo via comment_id
@@ -187,6 +189,12 @@ export class comment extends Model<commentAttributes, commentCreationAttributes>
       defaultValue: 0,
       comment: "置顶状态[ 1 置顶，0 不置顶 默认 ]"
     },
+    update_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: "修改时间"
+    },
     create_time: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -223,7 +231,7 @@ export class comment extends Model<commentAttributes, commentCreationAttributes>
         name: "idx_create_time",
         using: "BTREE",
         fields: [
-          { name: "create_time" },
+          { name: "update_time" },
         ]
       },
       {

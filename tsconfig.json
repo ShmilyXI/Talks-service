@@ -5,8 +5,8 @@
     "module": "commonjs",
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
+    // "strict": true,
+    "forceConsistentCasingInFileNames": false,
     "noEmit": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
@@ -16,8 +16,14 @@
     "rootDir": "./src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    // "sourceMap": true
+    "sourceMap": true
   },
   "exclude": ["node_modules", "build"],
-  "include": ["*.ts", "src/*.ts", "src/**/*.ts", "src/utils/quantize.js", "src/utils/mysql/auto.js"]
+  "include": [
+    "*.ts",
+    "src/*.ts",
+    "src/**/*.ts",
+    "src/utils/quantize.js",
+    "src/utils/mysql/auto.js"
+  ]
 }

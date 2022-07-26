@@ -10,6 +10,16 @@ const sequelize = new Sequelize({
   database: 'talks',
   logging: true, // logging: true, 打印sql到控制台
   timezone: '+08:00', //时间上的统一,这里是东八区，默认为0时区
+  dialectOptions: {
+    // 时间格式化，返回字符串
+    dateStrings: true,
+    typeCast(field, next) {
+      if (field.type === 'DATETIME') {
+        return field.string();
+      }
+      return next();
+    },
+  },
 });
 // 测试连接是否成功
 sequelize

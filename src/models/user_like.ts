@@ -8,13 +8,13 @@ export interface user_likeAttributes {
   liked_status: number;
   liked_type: number;
   is_delete: number;
-  create_time: Date;
   update_time: Date;
+  create_time: Date;
 }
 
 export type user_likePk = "id";
 export type user_likeId = user_like[user_likePk];
-export type user_likeOptionalAttributes = "id" | "liked_status" | "liked_type" | "is_delete" | "create_time" | "update_time";
+export type user_likeOptionalAttributes = "id" | "liked_status" | "liked_type" | "is_delete" | "update_time" | "create_time";
 export type user_likeCreationAttributes = Optional<user_likeAttributes, user_likeOptionalAttributes>;
 
 export class user_like extends Model<user_likeAttributes, user_likeCreationAttributes> implements user_likeAttributes {
@@ -24,8 +24,8 @@ export class user_like extends Model<user_likeAttributes, user_likeCreationAttri
   liked_status!: number;
   liked_type!: number;
   is_delete!: number;
-  create_time!: Date;
   update_time!: Date;
+  create_time!: Date;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof user_like {
@@ -65,17 +65,17 @@ export class user_like extends Model<user_likeAttributes, user_likeCreationAttri
       defaultValue: 0,
       comment: "是否逻辑删除"
     },
-    create_time: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
-      comment: "创建时间"
-    },
     update_time: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: "更新时间"
+    },
+    create_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: "创建时间"
     }
   }, {
     tableName: 'user_like',
