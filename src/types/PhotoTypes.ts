@@ -56,40 +56,6 @@ export interface PhotoList extends photosType {
     avatar_url?: string;
   };
 }
-export interface BasePhotoInfo {
-  id: number;
-  userId: string;
-  user: {
-    display_name: string;
-    username: string;
-    telephone: string;
-    avatar_url: string;
-  };
-  commentId: number;
-  galleryIds: number[];
-  url: string;
-  width: number;
-  height: number;
-  title: string;
-  description: string;
-  viewCount: number;
-  showComments: boolean;
-  themeColor: string;
-  place: string;
-  placeId: string;
-  location: string;
-  provincialName: string;
-  cityName: string;
-  areaName: string;
-  tags: string[];
-  mood: string;
-  likedStatus: number;
-  favoriteStatus: number;
-  exifData: ExifData;
-  shootingDate: string;
-  createDate: string;
-  updateDate: string;
-}
 
 export interface PhotoDetailInfoResponse extends common.Response {
   data?: { index: number; list: PhotoList[] };
