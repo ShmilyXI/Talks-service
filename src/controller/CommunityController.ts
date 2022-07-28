@@ -10,10 +10,7 @@ import {
   QueryParams,
 } from 'routing-controllers';
 
-import { setTime } from '../utils/util';
 import { Context } from 'koa';
-import CommunityModel from '../model/CommunityModel';
-import * as CommunityTypes from '../types/CommunityTypes';
 
 @JsonController('/community')
 export default class CommunityController {

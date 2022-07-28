@@ -1,9 +1,9 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { photo, photoId } from './photo';
-import type { user, userId } from './user';
+import type { photos, photosId } from './photos';
+import type { users, usersId } from './users';
 
-export interface photo_favoriteAttributes {
+export interface photo_favoritesAttributes {
   id: number;
   user_id: number;
   photo_id: number;
@@ -13,12 +13,12 @@ export interface photo_favoriteAttributes {
   create_time: Date;
 }
 
-export type photo_favoritePk = "id";
-export type photo_favoriteId = photo_favorite[photo_favoritePk];
-export type photo_favoriteOptionalAttributes = "id" | "favorite_status" | "is_delete" | "update_time" | "create_time";
-export type photo_favoriteCreationAttributes = Optional<photo_favoriteAttributes, photo_favoriteOptionalAttributes>;
+export type photo_favoritesPk = "id";
+export type photo_favoritesId = photo_favorites[photo_favoritesPk];
+export type photo_favoritesOptionalAttributes = "id" | "favorite_status" | "is_delete" | "update_time" | "create_time";
+export type photo_favoritesCreationAttributes = Optional<photo_favoritesAttributes, photo_favoritesOptionalAttributes>;
 
-export class photo_favorite extends Model<photo_favoriteAttributes, photo_favoriteCreationAttributes> implements photo_favoriteAttributes {
+export class photo_favorites extends Model<photo_favoritesAttributes, photo_favoritesCreationAttributes> implements photo_favoritesAttributes {
   id!: number;
   user_id!: number;
   photo_id!: number;
@@ -27,19 +27,19 @@ export class photo_favorite extends Model<photo_favoriteAttributes, photo_favori
   update_time!: Date;
   create_time!: Date;
 
-  // photo_favorite belongsTo photo via photo_id
-  photo!: photo;
-  getPhoto!: Sequelize.BelongsToGetAssociationMixin<photo>;
-  setPhoto!: Sequelize.BelongsToSetAssociationMixin<photo, photoId>;
-  createPhoto!: Sequelize.BelongsToCreateAssociationMixin<photo>;
-  // photo_favorite belongsTo user via user_id
-  user!: user;
-  getUser!: Sequelize.BelongsToGetAssociationMixin<user>;
-  setUser!: Sequelize.BelongsToSetAssociationMixin<user, userId>;
-  createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
+  // photo_favorites belongsTo photos via photo_id
+  photo!: photos;
+  getPhoto!: Sequelize.BelongsToGetAssociationMixin<photos>;
+  setPhoto!: Sequelize.BelongsToSetAssociationMixin<photos, photosId>;
+  createPhoto!: Sequelize.BelongsToCreateAssociationMixin<photos>;
+  // photo_favorites belongsTo users via user_id
+  user!: users;
+  getUser!: Sequelize.BelongsToGetAssociationMixin<users>;
+  setUser!: Sequelize.BelongsToSetAssociationMixin<users, usersId>;
+  createUser!: Sequelize.BelongsToCreateAssociationMixin<users>;
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof photo_favorite {
-    return sequelize.define('photo_favorite', {
+  static initModel(sequelize: Sequelize.Sequelize): typeof photo_favorites {
+    return sequelize.define('photo_favorites', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -51,7 +51,7 @@ export class photo_favorite extends Model<photo_favoriteAttributes, photo_favori
       allowNull: false,
       comment: "用户id",
       references: {
-        model: 'user',
+        model: 'users',
         key: 'id'
       }
     },
@@ -60,7 +60,7 @@ export class photo_favorite extends Model<photo_favoriteAttributes, photo_favori
       allowNull: false,
       comment: "照片id",
       references: {
-        model: 'photo',
+        model: 'photos',
         key: 'id'
       }
     },
@@ -89,7 +89,7 @@ export class photo_favorite extends Model<photo_favoriteAttributes, photo_favori
       comment: "创建时间"
     }
   }, {
-    tableName: 'photo_favorite',
+    tableName: 'photo_favorites',
     timestamps: false,
     indexes: [
       {
@@ -115,6 +115,6 @@ export class photo_favorite extends Model<photo_favoriteAttributes, photo_favori
         ]
       },
     ]
-  }) as typeof photo_favorite;
+  }) as typeof photo_favorites;
   }
 }

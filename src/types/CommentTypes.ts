@@ -4,14 +4,14 @@ export type CommentItem = {
   id: number;
   user_id: number;
   username: string;
-  display_name: string;
+  user: {
+    display_name: string;
+  };
   user_avatar_url: string;
   photo_id: number;
   content: string;
   likedStatus: number;
-  liked_count: number;
-  favoriteStatus: number;
-  favorite_count: number;
+  likedCount: number;
   status: number;
   top_status: number;
   type: number;
@@ -45,11 +45,7 @@ export interface GetPhotoCommentListResponse extends common.Response {
 export interface GetPhotoCommentListRequest {
   id: number;
 }
-export interface AddPhotoCommentResponse extends common.Response {
-  data?: {
-    id: number;
-  };
-}
+export interface AddPhotoCommentResponse extends common.Response {}
 export interface AddPhotoCommentRequest {
   photoId: number;
   content: string;
@@ -60,11 +56,7 @@ export interface AddPhotoCommentRequest {
   replyCommentId?: number;
   replyCommentUserId?: number;
 }
-export interface DeletePhotoCommentResponse extends common.Response {
-  data?: {
-    id: number;
-  };
-}
+export interface DeletePhotoCommentResponse extends common.Response {}
 export interface DeletePhotoCommentRequest {
   id?: number;
 }

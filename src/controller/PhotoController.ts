@@ -9,7 +9,6 @@ import {
 } from 'routing-controllers';
 
 import tools from '../utils/tool';
-import PhotoModel from '../model/PhotoModel';
 import * as PhotoTypes from '../types/PhotoTypes';
 import _ from 'lodash';
 import path from 'path';
@@ -18,6 +17,8 @@ import * as fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import {
   GetGalleryPhotoListRequest,
+  GetGalleryPhotoListResponse,
+  PhotoList,
   PublishPhotoRequest,
   PublishPhotoResponse,
   UpdatePhotoRequest,
@@ -26,10 +27,7 @@ import {
 } from '../types/PhotoTypes';
 const getImageColors = require('get-image-colors');
 import { exiftool } from 'exiftool-vendored';
-import UserModel from '../model/UserModel';
-import { formatPhotoInfo } from '../utils/util';
-import CommentModel from '../model/CommentModel';
-
+import Models from '../utils/mysql/db';
 @JsonController('/photo')
 export default class PhotoController {
   // 获取照片列表
@@ -37,7 +35,7 @@ export default class PhotoController {
   async galleryPhotoList(
     @HeaderParams() header,
     @Body() data: GetGalleryPhotoListRequest,
-  ): Promise<PhotoTypes.GetGalleryPhotoListResponse> {
+  ): Promise<GetGalleryPhotoListResponse> {
     const { pageIndex, pageSize } = data || {};
     if (!pageIndex || !pageSize) {
       return {
@@ -47,97 +45,67 @@ export default class PhotoController {
     }
     const token = header.authorization;
     const tokenInfo: any = await tools.verToken(token);
-    const photoData = await PhotoModel.getPhotoList(pageIndex, pageSize);
-
-    const list = photoData?.list;
-    for (let index = 0; index < list.length; index++) {
-      const item = list[index];
+    const { count, rows } = await Models.photos.findAndCountAll({
+      where: { is_delete: 0 },
+      order: [['update_time', 'desc']],
+      include: [
+        {
+          model: Models.users,
+          required: false,
+          as: 'user',
+          attributes: ['display_name', 'username', 'telephone', 'avatar_url'],
+        },
+      ],
+      nest: true,
+      raw: true,
+      limit: +pageSize,
+      offset: +(pageSize * (pageIndex - 1)),
+    });
+    const photoList: PhotoList[] = rows || [];
+    for (let index = 0; index < photoList.length; index++) {
+      const item = photoList[index];
       // 获取照片评论数量
-      const commentCount = (await CommentModel.getCommentListByPhotoId(item.id))
-        ?.length;
-      // 获取所有用户与当前照片点赞信息
-      const likedAllInfo = await UserModel.getUserLikedInfo(
-        0,
-        item.id,
-        null,
-        1,
-      );
-      // 获取当前用户与当前评论点赞信息
-      const curLikedInfo = likedAllInfo.find(
-        (v) => v.user_id === tokenInfo?.id,
-      );
-      if (curLikedInfo?.id) {
-        list[index].likedStatus = curLikedInfo.liked_status;
+      const commentCount = await Models.comments.count({
+        where: { photo_id: item.id },
+      });
+      photoList[index].commentCount = commentCount;
+      // 获取当前用户与当前照片点赞信息
+      const likedInfo = await Models.user_likes.findOne({
+        where: { liked_id: item.id, user_id: tokenInfo.id, liked_type: 0 },
+        raw: true,
+      });
+      if (likedInfo?.id) {
+        photoList[index].likedStatus = likedInfo.liked_status;
       }
-      // 当前作品点赞数量
-      if (likedAllInfo?.length) {
-        list[index].liked_count = likedAllInfo.length;
-      }
+      // 获取当前作品点赞数量
+      const likedCount = await Models.user_likes.count({
+        where: {
+          liked_id: item.id,
+        },
+      });
+      photoList[index].likedCount = likedCount;
 
-      // 获取所有用户与当前照片收藏信息
-      const favoriteAllInfo = await UserModel.getUserPhotoFavoriteInfo(
-        item.id,
-        null,
-        1,
-      );
-      // 获取当前用户与当前评论收藏信息
-      const curFavoriteInfo = favoriteAllInfo.find(
-        (v) => v.user_id === tokenInfo?.id,
-      );
-      if (curFavoriteInfo?.id) {
-        list[index].favoriteStatus = curFavoriteInfo.favorite_status;
+      // 获取当前用户与当前照片收藏信息
+      const favoriteInfo = await Models.photo_favorites.findOne({
+        where: { photo_id: item.id, user_id: tokenInfo.id },
+        raw: true,
+      });
+      if (favoriteInfo?.id) {
+        photoList[index].favoriteStatus = favoriteInfo.favorite_status;
       }
-      // 当前作品收藏数量
-      if (favoriteAllInfo?.length) {
-        list[index].favorite_count = favoriteAllInfo.length;
-      }
-      list[index] = {
-        ..._.omit(item, [
-          'exif_aperture',
-          'exif_brand',
-          'exif_focal_length',
-          'exif_iso',
-          'exif_model',
-          'exif_shutter_speed',
-          'user_id',
-          'author_name',
-          'avatar_url',
-          'view_count',
-          'place_id',
-          'comment_id',
-          'gallery_id',
-          'theme_color',
-          'provincial_name',
-          'city_name',
-          'area_name',
-          'shooting_date',
-          'show_comments',
-          'create_time',
-          'update_time',
-        ]),
-        userId: item.user_id,
-        authorName: item.author_name || item.author_username,
-        viewCount: item.view_count,
-        placeId: item.place_id,
-        avatarUrl: item.avatar_url,
-        commentId: item.comment_id,
-        galleryIds: _.map(item?.gallery_ids?.split(',') || [], Number),
-        themeColor: item.theme_color,
-        showComments: item.show_comments === 0,
-        commentCount,
-        provincialName: item.provincial_name,
-        cityName: item.city_name,
-        areaName: item.area_name,
-        shootingDate: item.shooting_date,
-        createDate: item.create_time,
-        updateDate: item.update_time,
-      };
+      // 获取当前作品收藏数量
+      const favoriteCount = await Models.photo_favorites.count({
+        where: {
+          photo_id: item.id,
+        },
+      });
+      photoList[index].favoriteCount = favoriteCount;
     }
     return {
       retCode: '0',
       data: {
-        list,
-        total: photoData.total || 0,
+        list: photoList,
+        total: count,
       },
     };
   }
@@ -151,33 +119,47 @@ export default class PhotoController {
     if (_.isNil(params.id)) {
       return { retCode: '-1', message: '参数错误' };
     }
+    const id = +params.id;
     const token = header.authorization;
     const tokenInfo: any = await tools.verToken(token);
-    const photoInfo = (await PhotoModel.getPhotoInfo(+params?.id))[0];
-
-    const photoList =
-      (await PhotoModel.getPhotoListByUserId(photoInfo?.user_id)) || [];
-
-    const index = _.findIndex(photoList, (v) => v.id === +params?.id);
+    const photoInfo = await Models.photos.findOne({
+      where: { id },
+      raw: true,
+    });
+    const photoList: PhotoList[] = await Models.photos.findAll({
+      where: { user_id: photoInfo?.user_id, is_delete: 0 },
+      include: {
+        model: Models.users,
+        required: false,
+        as: 'user',
+        attributes: ['display_name', 'username', 'telephone', 'avatar_url'],
+      },
+      nest: true, // 展开关联表数据为对象
+      raw: true,
+    });
+    const index = _.findIndex(photoList, (v) => v.id === id);
 
     // 获取当前用户与当前作品点赞信息
-    const likedInfo = (
-      await UserModel.getUserLikedInfo(0, +params?.id, tokenInfo?.id)
-    )[0];
+    const likedInfo = await Models.user_likes.findOne({
+      where: { liked_id: id, user_id: tokenInfo?.id, liked_type: 0 },
+      raw: true,
+    });
     if (likedInfo?.id) {
       photoList[index].likedStatus = likedInfo.liked_status;
     }
     // 获取当前用户与当前作品收藏信息
-    const favoriteInfo = (
-      await UserModel.getUserPhotoFavoriteInfo(+params?.id, tokenInfo?.id)
-    )[0];
+    const favoriteInfo = await Models.photo_favorites.findOne({
+      where: { photo_id: id, user_id: tokenInfo?.id },
+      raw: true,
+    });
+
     if (favoriteInfo?.id) {
       photoList[index].favoriteStatus = favoriteInfo.favorite_status;
     }
 
     const data = {
       index,
-      list: _.map(photoList, (v) => formatPhotoInfo(v)),
+      list: photoList,
     };
     return {
       retCode: '0',
@@ -196,58 +178,63 @@ export default class PhotoController {
     }
     const token = header.authorization;
     const tokenInfo: any = await tools.verToken(token);
-    const photoList = (await PhotoModel.getPhotoListByUserId(+id)) || [];
+    const photoList: PhotoList[] = await Models.photos.findAll({
+      where: { user_id: id },
+      include: {
+        model: Models.users,
+        required: false,
+        as: 'user',
+        attributes: ['display_name', 'username', 'telephone', 'avatar_url'],
+      },
+      nest: true,
+      raw: true,
+    });
 
     for (let index = 0; index < photoList.length; index++) {
       const item = photoList[index];
       // 获取照片评论数量
-      const commentCount = (await CommentModel.getCommentListByPhotoId(item.id))
-        ?.length;
+      const commentCount = await Models.comments.count({
+        where: { photo_id: item.id },
+      });
       photoList[index].commentCount = commentCount;
-      // 获取所有用户与当前照片点赞信息
-      const likedAllInfo = await UserModel.getUserLikedInfo(
-        0,
-        item.id,
-        null,
-        1,
-      );
-      // 获取当前用户与当前评论点赞信息
-      const curLikedInfo = likedAllInfo.find(
-        (v) => v.user_id === tokenInfo?.id,
-      );
-      if (curLikedInfo?.id) {
-        photoList[index].likedStatus = curLikedInfo.liked_status;
+      // 获取当前用户与当前照片点赞信息
+      const likedInfo = await Models.user_likes.findOne({
+        where: { liked_id: item.id, user_id: tokenInfo.id, liked_type: 0 },
+        raw: true,
+      });
+      if (likedInfo?.id) {
+        photoList[index].likedStatus = likedInfo.liked_status;
       }
-      // 当前作品点赞数量
-      if (likedAllInfo?.length) {
-        photoList[index].liked_count = likedAllInfo.length;
-      }
+      // 获取当前作品点赞数量
+      const likedCount = await Models.user_likes.count({
+        where: {
+          liked_id: item.id,
+        },
+      });
+      photoList[index].likedCount = likedCount;
 
-      // 获取所有用户与当前照片收藏信息
-      const favoriteAllInfo = await UserModel.getUserLikedInfo(
-        item.id,
-        null,
-        1,
-      );
-      // 获取当前用户与当前评论收藏信息
-      const curFavoriteInfo = favoriteAllInfo.find(
-        (v) => v.user_id === tokenInfo?.id,
-      );
-      if (curFavoriteInfo?.id) {
-        photoList[index].favoriteStatus = curFavoriteInfo.favorite_status;
+      // 获取当前用户与当前照片收藏信息
+      const favoriteInfo = await Models.photo_favorites.findOne({
+        where: { photo_id: item.id, user_id: tokenInfo.id },
+        raw: true,
+      });
+      if (favoriteInfo?.id) {
+        photoList[index].favoriteStatus = favoriteInfo.favorite_status;
       }
-      // 当前作品收藏数量
-      if (favoriteAllInfo?.length) {
-        photoList[index].favorite_count = favoriteAllInfo.length;
-      }
+      // 获取当前作品收藏数量
+      const favoriteCount = await Models.photo_favorites.count({
+        where: {
+          photo_id: item.id,
+        },
+      });
+      photoList[index].favoriteCount = favoriteCount;
     }
 
-    const data = {
-      list: _.map(photoList, (v) => formatPhotoInfo(v)),
-    };
     return {
       retCode: '0',
-      data,
+      data: {
+        list: photoList,
+      },
     };
   }
 
@@ -317,14 +304,7 @@ export default class PhotoController {
     @Body() data: PublishPhotoRequest,
   ): Promise<PublishPhotoResponse> {
     const token = header.authorization;
-    const {
-      url,
-      width,
-      height,
-      title,
-      themeColor,
-      photoExifInfo = {},
-    } = data || {};
+    const { url, width, height, title, themeColor } = data || {};
     if (
       _.isNil(token) ||
       _.isNil(url) ||
@@ -336,16 +316,38 @@ export default class PhotoController {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
-    const values = {
-      ...data,
-      ...photoExifInfo,
-      userId: tokenInfo?.id,
-    };
-    const result = await PhotoModel.insertPhotoInfo(values);
+    const values = _.omitBy(
+      {
+        user_id: tokenInfo?.id,
+        url: data?.url,
+        width: data?.width,
+        height: data?.height,
+        title: data?.title,
+        description: data?.description,
+        theme_color: data?.themeColor,
+        place: data?.place,
+        place_id: data?.placeId,
+        location: data?.location,
+        provincial_name: data?.provincialName,
+        city_name: data?.cityName,
+        area_name: data?.areaName,
+        tags: data?.tags,
+        mood: data?.mood,
+        shooting_date: data?.shootingDate,
+        exif_brand: data?.photoExifInfo?.brand,
+        exif_model: data?.photoExifInfo?.model,
+        exif_aperture: data?.photoExifInfo?.aperture,
+        exif_focal_length: data?.photoExifInfo?.focalLength,
+        exif_shutter_speed: data?.photoExifInfo?.shutterSpeed,
+        exif_iso: data?.photoExifInfo?.iso,
+      },
+      _.isNil,
+    );
+
+    await Models.photos.create(values);
 
     return {
       retCode: '0',
-      data: { id: result?.insertId },
     };
   }
 
@@ -358,14 +360,26 @@ export default class PhotoController {
     if (_.isNil(id) || _.isNil(title)) {
       return { retCode: '-1', message: '参数错误' };
     }
-    const values = {
-      ...data,
-    };
-    const result = await PhotoModel.updatePhotoInfo(values);
+    const values = _.omitBy(
+      {
+        title: data?.title,
+        description: data?.description,
+        place: data?.place,
+        place_id: data?.placeId,
+        location: data?.location,
+        provincial_name: data?.provincialName,
+        city_name: data?.cityName,
+        area_name: data?.areaName,
+        mood: data?.mood,
+        shooting_date: data?.shootingDate,
+      },
+      _.isNil,
+    );
+
+    await Models.photos.update(values, { where: { id: data.id } });
 
     return {
       retCode: '0',
-      data: { id: result?.insertId },
     };
   }
 }

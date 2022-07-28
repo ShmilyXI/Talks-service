@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import Koa from 'koa'; // 导入koa
 import path from 'path';
 import logger from 'koa-logger'; // 导入日志
 import views from 'koa-views';
@@ -7,7 +6,7 @@ import json from 'koa-json';
 import onerror from 'koa-onerror';
 import koabodyparser from 'koa-bodyparser';
 import koajwt from 'koa-jwt';
-import { createKoaServer, useContainer } from 'routing-controllers';
+import { createKoaServer } from 'routing-controllers';
 
 import UserController from './controller/UserController';
 import PhotoController from './controller/PhotoController';

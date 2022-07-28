@@ -1,65 +1,67 @@
 import type { Sequelize } from "sequelize";
-import { comment as _comment } from "./comment";
-import type { commentAttributes, commentCreationAttributes } from "./comment";
-import { photo as _photo } from "./photo";
-import type { photoAttributes, photoCreationAttributes } from "./photo";
-import { photo_favorite as _photo_favorite } from "./photo_favorite";
-import type { photo_favoriteAttributes, photo_favoriteCreationAttributes } from "./photo_favorite";
-import { user as _user } from "./user";
-import type { userAttributes, userCreationAttributes } from "./user";
-import { user_like as _user_like } from "./user_like";
-import type { user_likeAttributes, user_likeCreationAttributes } from "./user_like";
+import { comments as _comments } from "./comments";
+import type { commentsAttributes, commentsCreationAttributes } from "./comments";
+import { photo_favorites as _photo_favorites } from "./photo_favorites";
+import type { photo_favoritesAttributes, photo_favoritesCreationAttributes } from "./photo_favorites";
+import { photos as _photos } from "./photos";
+import type { photosAttributes, photosCreationAttributes } from "./photos";
+import { user_likes as _user_likes } from "./user_likes";
+import type { user_likesAttributes, user_likesCreationAttributes } from "./user_likes";
+import { users as _users } from "./users";
+import type { usersAttributes, usersCreationAttributes } from "./users";
 
 export {
-  _comment as comment,
-  _photo as photo,
-  _photo_favorite as photo_favorite,
-  _user as user,
-  _user_like as user_like,
+  _comments as comments,
+  _photo_favorites as photo_favorites,
+  _photos as photos,
+  _user_likes as user_likes,
+  _users as users,
 };
 
 export type {
-  commentAttributes,
-  commentCreationAttributes,
-  photoAttributes,
-  photoCreationAttributes,
-  photo_favoriteAttributes,
-  photo_favoriteCreationAttributes,
-  userAttributes,
-  userCreationAttributes,
-  user_likeAttributes,
-  user_likeCreationAttributes,
+  commentsAttributes,
+  commentsCreationAttributes,
+  photo_favoritesAttributes,
+  photo_favoritesCreationAttributes,
+  photosAttributes,
+  photosCreationAttributes,
+  user_likesAttributes,
+  user_likesCreationAttributes,
+  usersAttributes,
+  usersCreationAttributes,
 };
 
 export function initModels(sequelize: Sequelize) {
-  const comment = _comment.initModel(sequelize);
-  const photo = _photo.initModel(sequelize);
-  const photo_favorite = _photo_favorite.initModel(sequelize);
-  const user = _user.initModel(sequelize);
-  const user_like = _user_like.initModel(sequelize);
+  const comments = _comments.initModel(sequelize);
+  const photo_favorites = _photo_favorites.initModel(sequelize);
+  const photos = _photos.initModel(sequelize);
+  const user_likes = _user_likes.initModel(sequelize);
+  const users = _users.initModel(sequelize);
 
-  photo.belongsTo(comment, { as: "comment_comment", foreignKey: "comment_id"});
-  comment.hasMany(photo, { as: "comment_photos", foreignKey: "comment_id"});
-  comment.belongsTo(photo, { as: "photo", foreignKey: "photo_id"});
-  photo.hasMany(comment, { as: "comments", foreignKey: "photo_id"});
-  photo_favorite.belongsTo(photo, { as: "photo", foreignKey: "photo_id"});
-  photo.hasMany(photo_favorite, { as: "photo_favorites", foreignKey: "photo_id"});
-  comment.belongsTo(user, { as: "parent_comment_user", foreignKey: "parent_comment_user_id"});
-  user.hasMany(comment, { as: "comments", foreignKey: "parent_comment_user_id"});
-  comment.belongsTo(user, { as: "reply_comment_user", foreignKey: "reply_comment_user_id"});
-  user.hasMany(comment, { as: "reply_comment_user_comments", foreignKey: "reply_comment_user_id"});
-  comment.belongsTo(user, { as: "user", foreignKey: "user_id"});
-  user.hasMany(comment, { as: "user_comments", foreignKey: "user_id"});
-  photo.belongsTo(user, { as: "user", foreignKey: "user_id"});
-  user.hasMany(photo, { as: "photos", foreignKey: "user_id"});
-  photo_favorite.belongsTo(user, { as: "user", foreignKey: "user_id"});
-  user.hasMany(photo_favorite, { as: "photo_favorites", foreignKey: "user_id"});
+  photos.belongsTo(comments, { as: "comment_comment", foreignKey: "comment_id"});
+  comments.hasMany(photos, { as: "comment_photos", foreignKey: "comment_id"});
+  comments.belongsTo(photos, { as: "photo", foreignKey: "photo_id"});
+  photos.hasMany(comments, { as: "comments", foreignKey: "photo_id"});
+  photo_favorites.belongsTo(photos, { as: "photo", foreignKey: "photo_id"});
+  photos.hasMany(photo_favorites, { as: "photo_favorites", foreignKey: "photo_id"});
+  comments.belongsTo(users, { as: "parent_comment_user", foreignKey: "parent_comment_user_id"});
+  users.hasMany(comments, { as: "comments", foreignKey: "parent_comment_user_id"});
+  comments.belongsTo(users, { as: "reply_comment_user", foreignKey: "reply_comment_user_id"});
+  users.hasMany(comments, { as: "reply_comment_user_comments", foreignKey: "reply_comment_user_id"});
+  comments.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(comments, { as: "user_comments", foreignKey: "user_id"});
+  photo_favorites.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(photo_favorites, { as: "photo_favorites", foreignKey: "user_id"});
+  photos.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(photos, { as: "photos", foreignKey: "user_id"});
+  user_likes.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(user_likes, { as: "user_likes", foreignKey: "user_id"});
 
   return {
-    comment: comment,
-    photo: photo,
-    photo_favorite: photo_favorite,
-    user: user,
-    user_like: user_like,
+    comments: comments,
+    photo_favorites: photo_favorites,
+    photos: photos,
+    user_likes: user_likes,
+    users: users,
   };
 }

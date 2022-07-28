@@ -1,10 +1,10 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { comment, commentId } from './comment';
-import type { photo_favorite, photo_favoriteId } from './photo_favorite';
-import type { user, userId } from './user';
+import type { comments, commentsId } from './comments';
+import type { photo_favorites, photo_favoritesId } from './photo_favorites';
+import type { users, usersId } from './users';
 
-export interface photoAttributes {
+export interface photosAttributes {
   id: number;
   user_id: number;
   comment_id?: number;
@@ -36,12 +36,12 @@ export interface photoAttributes {
   update_time: Date;
 }
 
-export type photoPk = "id";
-export type photoId = photo[photoPk];
-export type photoOptionalAttributes = "id" | "comment_id" | "url" | "gallery_ids" | "description" | "theme_color" | "place" | "place_id" | "location" | "provincial_name" | "city_name" | "area_name" | "tags" | "mood" | "show_comments" | "exif_brand" | "exif_model" | "exif_aperture" | "exif_focal_length" | "exif_shutter_speed" | "exif_iso" | "shooting_date" | "is_delete" | "create_time" | "update_time";
-export type photoCreationAttributes = Optional<photoAttributes, photoOptionalAttributes>;
+export type photosPk = "id";
+export type photosId = photos[photosPk];
+export type photosOptionalAttributes = "id" | "comment_id" | "url" | "gallery_ids" | "description" | "theme_color" | "place" | "place_id" | "location" | "provincial_name" | "city_name" | "area_name" | "tags" | "mood" | "show_comments" | "exif_brand" | "exif_model" | "exif_aperture" | "exif_focal_length" | "exif_shutter_speed" | "exif_iso" | "shooting_date" | "is_delete" | "create_time" | "update_time";
+export type photosCreationAttributes = Optional<photosAttributes, photosOptionalAttributes>;
 
-export class photo extends Model<photoAttributes, photoCreationAttributes> implements photoAttributes {
+export class photos extends Model<photosAttributes, photosCreationAttributes> implements photosAttributes {
   id!: number;
   user_id!: number;
   comment_id?: number;
@@ -72,43 +72,43 @@ export class photo extends Model<photoAttributes, photoCreationAttributes> imple
   create_time!: Date;
   update_time!: Date;
 
-  // photo belongsTo comment via comment_id
-  comment_comment!: comment;
-  getComment_comment!: Sequelize.BelongsToGetAssociationMixin<comment>;
-  setComment_comment!: Sequelize.BelongsToSetAssociationMixin<comment, commentId>;
-  createComment_comment!: Sequelize.BelongsToCreateAssociationMixin<comment>;
-  // photo hasMany comment via photo_id
-  comments!: comment[];
-  getComments!: Sequelize.HasManyGetAssociationsMixin<comment>;
-  setComments!: Sequelize.HasManySetAssociationsMixin<comment, commentId>;
-  addComment!: Sequelize.HasManyAddAssociationMixin<comment, commentId>;
-  addComments!: Sequelize.HasManyAddAssociationsMixin<comment, commentId>;
-  createComment!: Sequelize.HasManyCreateAssociationMixin<comment>;
-  removeComment!: Sequelize.HasManyRemoveAssociationMixin<comment, commentId>;
-  removeComments!: Sequelize.HasManyRemoveAssociationsMixin<comment, commentId>;
-  hasComment!: Sequelize.HasManyHasAssociationMixin<comment, commentId>;
-  hasComments!: Sequelize.HasManyHasAssociationsMixin<comment, commentId>;
+  // photos belongsTo comments via comment_id
+  comment_comment!: comments;
+  getComment_comment!: Sequelize.BelongsToGetAssociationMixin<comments>;
+  setComment_comment!: Sequelize.BelongsToSetAssociationMixin<comments, commentsId>;
+  createComment_comment!: Sequelize.BelongsToCreateAssociationMixin<comments>;
+  // photos hasMany comments via photo_id
+  comments!: comments[];
+  getComments!: Sequelize.HasManyGetAssociationsMixin<comments>;
+  setComments!: Sequelize.HasManySetAssociationsMixin<comments, commentsId>;
+  addComment!: Sequelize.HasManyAddAssociationMixin<comments, commentsId>;
+  addComments!: Sequelize.HasManyAddAssociationsMixin<comments, commentsId>;
+  createComment!: Sequelize.HasManyCreateAssociationMixin<comments>;
+  removeComment!: Sequelize.HasManyRemoveAssociationMixin<comments, commentsId>;
+  removeComments!: Sequelize.HasManyRemoveAssociationsMixin<comments, commentsId>;
+  hasComment!: Sequelize.HasManyHasAssociationMixin<comments, commentsId>;
+  hasComments!: Sequelize.HasManyHasAssociationsMixin<comments, commentsId>;
   countComments!: Sequelize.HasManyCountAssociationsMixin;
-  // photo hasMany photo_favorite via photo_id
-  photo_favorites!: photo_favorite[];
-  getPhoto_favorites!: Sequelize.HasManyGetAssociationsMixin<photo_favorite>;
-  setPhoto_favorites!: Sequelize.HasManySetAssociationsMixin<photo_favorite, photo_favoriteId>;
-  addPhoto_favorite!: Sequelize.HasManyAddAssociationMixin<photo_favorite, photo_favoriteId>;
-  addPhoto_favorites!: Sequelize.HasManyAddAssociationsMixin<photo_favorite, photo_favoriteId>;
-  createPhoto_favorite!: Sequelize.HasManyCreateAssociationMixin<photo_favorite>;
-  removePhoto_favorite!: Sequelize.HasManyRemoveAssociationMixin<photo_favorite, photo_favoriteId>;
-  removePhoto_favorites!: Sequelize.HasManyRemoveAssociationsMixin<photo_favorite, photo_favoriteId>;
-  hasPhoto_favorite!: Sequelize.HasManyHasAssociationMixin<photo_favorite, photo_favoriteId>;
-  hasPhoto_favorites!: Sequelize.HasManyHasAssociationsMixin<photo_favorite, photo_favoriteId>;
+  // photos hasMany photo_favorites via photo_id
+  photo_favorites!: photo_favorites[];
+  getPhoto_favorites!: Sequelize.HasManyGetAssociationsMixin<photo_favorites>;
+  setPhoto_favorites!: Sequelize.HasManySetAssociationsMixin<photo_favorites, photo_favoritesId>;
+  addPhoto_favorite!: Sequelize.HasManyAddAssociationMixin<photo_favorites, photo_favoritesId>;
+  addPhoto_favorites!: Sequelize.HasManyAddAssociationsMixin<photo_favorites, photo_favoritesId>;
+  createPhoto_favorite!: Sequelize.HasManyCreateAssociationMixin<photo_favorites>;
+  removePhoto_favorite!: Sequelize.HasManyRemoveAssociationMixin<photo_favorites, photo_favoritesId>;
+  removePhoto_favorites!: Sequelize.HasManyRemoveAssociationsMixin<photo_favorites, photo_favoritesId>;
+  hasPhoto_favorite!: Sequelize.HasManyHasAssociationMixin<photo_favorites, photo_favoritesId>;
+  hasPhoto_favorites!: Sequelize.HasManyHasAssociationsMixin<photo_favorites, photo_favoritesId>;
   countPhoto_favorites!: Sequelize.HasManyCountAssociationsMixin;
-  // photo belongsTo user via user_id
-  user!: user;
-  getUser!: Sequelize.BelongsToGetAssociationMixin<user>;
-  setUser!: Sequelize.BelongsToSetAssociationMixin<user, userId>;
-  createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
+  // photos belongsTo users via user_id
+  user!: users;
+  getUser!: Sequelize.BelongsToGetAssociationMixin<users>;
+  setUser!: Sequelize.BelongsToSetAssociationMixin<users, usersId>;
+  createUser!: Sequelize.BelongsToCreateAssociationMixin<users>;
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof photo {
-    return sequelize.define('photo', {
+  static initModel(sequelize: Sequelize.Sequelize): typeof photos {
+    return sequelize.define('photos', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -121,7 +121,7 @@ export class photo extends Model<photoAttributes, photoCreationAttributes> imple
       allowNull: false,
       comment: "归属用户id",
       references: {
-        model: 'user',
+        model: 'users',
         key: 'id'
       }
     },
@@ -130,8 +130,8 @@ export class photo extends Model<photoAttributes, photoCreationAttributes> imple
       allowNull: true,
       comment: "评论列表id",
       references: {
-        model: 'comment',
-        key: 'photo_id'
+        model: 'comments',
+        key: 'id'
       }
     },
     url: {
@@ -288,7 +288,7 @@ export class photo extends Model<photoAttributes, photoCreationAttributes> imple
       comment: "修改时间"
     }
   }, {
-    tableName: 'photo',
+    tableName: 'photos',
     timestamps: false,
     indexes: [
       {
@@ -300,20 +300,20 @@ export class photo extends Model<photoAttributes, photoCreationAttributes> imple
         ]
       },
       {
-        name: "user_id",
+        name: "photo_user_id",
         using: "BTREE",
         fields: [
           { name: "user_id" },
         ]
       },
       {
-        name: "comment_id",
+        name: "photo_comment_id",
         using: "BTREE",
         fields: [
           { name: "comment_id" },
         ]
       },
     ]
-  }) as typeof photo;
+  }) as typeof photos;
   }
 }

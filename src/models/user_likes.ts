@@ -1,7 +1,8 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { users, usersId } from './users';
 
-export interface user_likeAttributes {
+export interface user_likesAttributes {
   id: number;
   user_id: number;
   liked_id: number;
@@ -12,12 +13,12 @@ export interface user_likeAttributes {
   create_time: Date;
 }
 
-export type user_likePk = "id";
-export type user_likeId = user_like[user_likePk];
-export type user_likeOptionalAttributes = "id" | "liked_status" | "liked_type" | "is_delete" | "update_time" | "create_time";
-export type user_likeCreationAttributes = Optional<user_likeAttributes, user_likeOptionalAttributes>;
+export type user_likesPk = "id";
+export type user_likesId = user_likes[user_likesPk];
+export type user_likesOptionalAttributes = "id" | "liked_status" | "liked_type" | "is_delete" | "update_time" | "create_time";
+export type user_likesCreationAttributes = Optional<user_likesAttributes, user_likesOptionalAttributes>;
 
-export class user_like extends Model<user_likeAttributes, user_likeCreationAttributes> implements user_likeAttributes {
+export class user_likes extends Model<user_likesAttributes, user_likesCreationAttributes> implements user_likesAttributes {
   id!: number;
   user_id!: number;
   liked_id!: number;
@@ -27,9 +28,14 @@ export class user_like extends Model<user_likeAttributes, user_likeCreationAttri
   update_time!: Date;
   create_time!: Date;
 
+  // user_likes belongsTo users via user_id
+  user!: users;
+  getUser!: Sequelize.BelongsToGetAssociationMixin<users>;
+  setUser!: Sequelize.BelongsToSetAssociationMixin<users, usersId>;
+  createUser!: Sequelize.BelongsToCreateAssociationMixin<users>;
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof user_like {
-    return sequelize.define('user_like', {
+  static initModel(sequelize: Sequelize.Sequelize): typeof user_likes {
+    return sequelize.define('user_likes', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -40,7 +46,11 @@ export class user_like extends Model<user_likeAttributes, user_likeCreationAttri
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      comment: "用户id"
+      comment: "用户id",
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     },
     liked_id: {
       type: DataTypes.INTEGER,
@@ -78,7 +88,7 @@ export class user_like extends Model<user_likeAttributes, user_likeCreationAttri
       comment: "创建时间"
     }
   }, {
-    tableName: 'user_like',
+    tableName: 'user_likes',
     timestamps: false,
     indexes: [
       {
@@ -89,7 +99,14 @@ export class user_like extends Model<user_likeAttributes, user_likeCreationAttri
           { name: "id" },
         ]
       },
+      {
+        name: "like_user_id",
+        using: "BTREE",
+        fields: [
+          { name: "user_id" },
+        ]
+      },
     ]
-  }) as typeof user_like;
+  }) as typeof user_likes;
   }
 }

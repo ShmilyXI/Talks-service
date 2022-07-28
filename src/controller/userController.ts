@@ -15,7 +15,6 @@ import check from '../utils/regExp';
 //解析token
 import tools from '../utils/tool';
 import { Context } from 'koa';
-import UserModel from '../model/UserModel';
 import * as UserTypes from '../types/UserTypes';
 import {
   UpdateUserInfoRequest,
@@ -31,6 +30,7 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
 import _ from 'lodash';
+import Models from '../utils/mysql/db';
 
 //统一设置token有效时间
 const expireTime = '999h';
@@ -43,7 +43,6 @@ export default class UserController {
     @Body() data: UserTypes.UserRegisterRequest,
   ): Promise<UserTypes.UserRegisterResponse> {
     let { username, telephone, password } = data || {};
-
     if (!check.checkName(username))
       return {
         retCode: '-1',
@@ -62,26 +61,36 @@ export default class UserController {
         message: '密码格式错误',
       };
 
-    const names = await UserModel.getUser(username); //用户名是否重复
-    const tels = await UserModel.getTelephone(telephone); //手机号是否重复
-
-    if (tels?.length > 0) {
-      return {
-        retCode: '-2',
-        message: '该手机号已注册',
-      };
-    }
-
-    if (names?.length > 0) {
+    // 用户名是否重复
+    const _nameInfo = await Models.users.findOne({
+      where: { username },
+      raw: true,
+    });
+    if (_nameInfo?.id) {
       return {
         retCode: '-2',
         message: '用户名已存在',
       };
     }
+    // 手机号是否重复
+    const _telephoneInfo = await Models.users.findOne({
+      where: { telephone },
+      raw: true,
+    });
+    if (_telephoneInfo) {
+      return {
+        retCode: '-2',
+        message: '该手机号已注册',
+      };
+    }
+    await Models.users.create({
+      username,
+      display_name: username,
+      telephone,
+      password,
+    });
 
-    await UserModel.insert(username, telephone, password);
-
-    return { retCode: '0', message: '注册成功' };
+    return { retCode: '0' };
   }
 
   // 登录
@@ -102,14 +111,17 @@ export default class UserController {
         message: '密码格式错误',
       };
 
-    const res = (await UserModel.getTelephone(telephone))?.[0];
-    if (res) {
-      if (res?.password === password) {
+    const userInfo = await Models.users.findOne({
+      where: { telephone },
+      raw: true,
+    });
+    if (userInfo) {
+      if (userInfo?.password === password) {
         //生成token，验证登录有效期
         const token = jwt.sign(
           {
-            id: res?.id,
-            username: res?.username,
+            id: userInfo?.id,
+            username: userInfo?.username,
             telephone,
             password,
           },
@@ -119,7 +131,7 @@ export default class UserController {
         return {
           retCode: '0',
           token,
-          data: { id: res?.id },
+          data: { id: userInfo?.id },
           message: '登录成功',
         };
       } else {
@@ -151,11 +163,13 @@ export default class UserController {
             message: '参数错误',
           };
         }
-        const data = (await UserModel.getUserInfo(req.id))?.[0] || {};
+        const userInfo = await Models.users.findOne({
+          where: { id: req.id },
+          raw: true,
+        });
         return {
           retCode: '0',
-          data,
-          message: '获取用户信息成功',
+          data: userInfo,
         };
       } catch (error) {
         ctx.status = 401;
@@ -228,12 +242,26 @@ export default class UserController {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
-    const values = {
-      ...data,
-      id: tokenInfo?.id,
-    };
-    await UserModel.updateUserInfo(values);
-    const userInfo = (await UserModel.getUserInfo(tokenInfo?.id))?.[0] || {};
+    await Models.users.update(
+      {
+        display_name: displayName,
+        avatar_url: avatarUrl,
+        email,
+        username: userName,
+        individual_resume: data?.individualResume,
+        place: data?.place,
+        place_id: data?.placeId,
+        location: data?.location,
+        provincial_name: data?.provincialName,
+        city_name: data?.cityName,
+        area_name: data?.areaName,
+      },
+      { where: { id: tokenInfo?.id } },
+    );
+    const userInfo = await Models.users.findOne({
+      where: { id: tokenInfo?.id },
+      raw: true,
+    });
 
     return {
       retCode: '0',
@@ -255,19 +283,26 @@ export default class UserController {
     }
 
     const tokenInfo: any = await tools.verToken(token);
-    const likedInfo = (
-      await UserModel.getUserLikedInfo(likedType, likedId, tokenInfo?.id)
-    )[0];
 
-    const values: any = {
-      ...data,
-      userId: tokenInfo?.id,
-    };
+    const likedInfo = await Models.user_likes.findOne({
+      where: { liked_id: likedId, liked_type: likedType },
+      raw: true,
+    });
 
     if (likedInfo?.id) {
-      await UserModel.updateUserLiked(likedInfo?.id, likedStatus);
+      await Models.user_likes.update(
+        {
+          liked_status: likedStatus,
+        },
+        { where: { id: likedInfo?.id } },
+      );
     } else {
-      await UserModel.insertUserLiked(values);
+      await Models.user_likes.create({
+        user_id: tokenInfo?.id,
+        liked_id: likedId,
+        liked_type: likedType,
+        liked_status: likedStatus,
+      });
     }
 
     return {
@@ -276,7 +311,7 @@ export default class UserController {
     };
   }
 
-  // 用户点赞
+  // 用户收藏
   @Post('/user-photo-favorite')
   async userFavorite(
     @HeaderParams() header,
@@ -290,19 +325,24 @@ export default class UserController {
     }
 
     const tokenInfo: any = await tools.verToken(token);
-    const favoriteInfo = (
-      await UserModel.getUserPhotoFavoriteInfo(photoId, tokenInfo?.id)
-    )[0];
-
-    const values: any = {
-      ...data,
-      userId: tokenInfo?.id,
-    };
+    const favoriteInfo = await Models.photo_favorites.findOne({
+      where: { photo_id: photoId, user_id: tokenInfo?.id },
+      raw: true,
+    });
 
     if (favoriteInfo?.id) {
-      await UserModel.updateUserPhotoFavorite(favoriteInfo?.id, favoriteStatus);
+      await Models.photo_favorites.update(
+        {
+          favorite_status: favoriteStatus,
+        },
+        { where: { id: favoriteInfo?.id } },
+      );
     } else {
-      await UserModel.insertUserPhotoFavorite(values);
+      await Models.photo_favorites.create({
+        user_id: tokenInfo?.id,
+        photo_id: photoId,
+        favorite_status: favoriteStatus,
+      });
     }
 
     return {

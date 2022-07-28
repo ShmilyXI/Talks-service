@@ -8,10 +8,16 @@ import {
 } from 'routing-controllers';
 
 import tools from '../utils/tool';
-import CommentModel from '../model/CommentModel';
 import _ from 'lodash';
-import { AddPhotoCommentRequest, AddPhotoCommentResponse, DeletePhotoCommentRequest, DeletePhotoCommentResponse, GetPhotoCommentListRequest, GetPhotoCommentListResponse } from '../types/CommentTypes';
-import UserModel from '../model/UserModel';
+import {
+  AddPhotoCommentRequest,
+  AddPhotoCommentResponse,
+  DeletePhotoCommentRequest,
+  DeletePhotoCommentResponse,
+  GetPhotoCommentListRequest,
+  GetPhotoCommentListResponse,
+} from '../types/CommentTypes';
+import Models from '../utils/mysql/db';
 
 @JsonController('/comment')
 export default class PhotoController {
@@ -25,68 +31,94 @@ export default class PhotoController {
     const token = header.authorization;
     const tokenInfo: any = await tools.verToken(token);
 
-    let list = await CommentModel.getPhotoCommentList(id);
-    for (let index = 0; index < list.length; index++) {
-      const item = list[index];
+    const commentList: any[] = await Models.comments.findAll({
+      where: { photo_id: id, comment_level: 1, type: 1, is_delete: 0 },
+      include: {
+        model: Models.users,
+        required: false,
+        as: 'user',
+        attributes: ['display_name'],
+      },
+      order: [
+        ['top_status', 'DESC'],
+        ['create_time', 'DESC'],
+      ],
+      nest: true, // 展开关联表数据为对象
+      raw: true,
+    });
+    for (let index = 0; index < commentList.length; index++) {
+      const item = commentList[index];
       if (!_.isNil(item.id)) {
-        const children =
-          (await CommentModel.getChildrenPhotoCommentList(id, item.id)) || [];
-        for (let i = 0; i < children.length; i++) {
+        const childrenList: any[] = await Models.comments.findAll({
+          where: {
+            parent_comment_id: item.id,
+            photo_id: id,
+            comment_level: 2,
+            type: 1,
+            is_delete: 0,
+          },
+          include: {
+            model: Models.users,
+            required: false,
+            as: 'user',
+            attributes: ['display_name', 'username'],
+          },
+          order: [['create_time', 'DESC']],
+          nest: true, // 展开关联表数据为对象
+          raw: true,
+        });
+        for (let i = 0; i < childrenList.length; i++) {
           // 如果是子评论的回复内容,则拥有reply_comment_user_id,根据id获取对应用户信息
-          const child = children[i];
-          // 获取所有用户与当前评论点赞信息
-          const likedAllInfo = await UserModel.getUserLikedInfo(
-            1,
-            child?.id,
-            null,
-            1,
-          );
+          const child = childrenList[i];
           // 获取当前用户与当前评论点赞信息
-          const curLikedInfo = likedAllInfo.find(
-            (v) => v.user_id === tokenInfo?.id,
-          );
-          if (curLikedInfo?.id) {
-            children[i].likedStatus = curLikedInfo.liked_status;
+          const likedInfo = await Models.user_likes.findOne({
+            where: { liked_id: child.id, liked_type: 1, user_id: tokenInfo.id },
+            raw: true,
+          });
+          if (likedInfo?.id) {
+            childrenList[index].likedStatus = likedInfo.liked_status;
           }
-          if (likedAllInfo?.length) {
-            children[i].liked_count = likedAllInfo.length;
-          }
+          // 获取当前评论点赞数量
+          const likedCount = await Models.user_likes.count({
+            where: {
+              liked_id: child.id,
+            },
+          });
+          childrenList[index].likedCount = likedCount;
+
           if (!_.isNil(child.reply_comment_user_id)) {
-            const replyUserInfo = (
-              await UserModel.getUserInfo(child.reply_comment_user_id)
-            )[0];
-            children[i].replyUserInfo = _.pick(replyUserInfo, [
-              'id',
-              'display_name',
-              'username',
-            ]);
+            const replyUserInfo = await Models.users.findOne({
+              where: { id: child.reply_comment_user_id },
+              attributes: ['id', 'display_name', 'username'],
+              raw: true,
+            });
+            childrenList[i].replyUserInfo = replyUserInfo;
           }
         }
-        // 获取所有用户与当前评论点赞信息
-        const likedAllInfo = await UserModel.getUserLikedInfo(
-          1,
-          item.id,
-          null,
-          1,
-        );
+
         // 获取当前用户与当前评论点赞信息
-        const curLikedInfo = likedAllInfo.find(
-          (v) => v.user_id === tokenInfo?.id,
-        );
-        if (curLikedInfo?.id) {
-          list[index].likedStatus = curLikedInfo.liked_status;
+        const likedInfo = await Models.user_likes.findOne({
+          where: { liked_id: item.id, liked_type: 1, user_id: tokenInfo.id },
+          raw: true,
+        });
+        if (likedInfo?.id) {
+          commentList[index].likedStatus = likedInfo.liked_status;
         }
-        if (likedAllInfo?.length) {
-          list[index].liked_count = likedAllInfo.length;
-        }
-        list[index].children = children;
+        // 获取当前评论点赞数量
+        const likedCount = await Models.user_likes.count({
+          where: {
+            liked_id: item.id,
+          },
+        });
+        commentList[index].likedCount = likedCount;
+        commentList[index].children = childrenList;
       }
     }
 
     return {
       retCode: '0',
       data: {
-        list,
+        list: commentList,
       },
     };
   }
@@ -118,41 +150,44 @@ export default class PhotoController {
       return { retCode: '-1', message: '参数错误' };
     }
     const tokenInfo: any = await tools.verToken(token);
-    const userInfo = (await UserModel.getUserInfo(tokenInfo.id))[0];
-    const result = await CommentModel.insertPhotoComment(
-      userInfo?.id,
-      userInfo?.username,
-      userInfo?.avatar_url,
-      photoId,
+    const userInfo = await Models.users.findOne({
+      where: { id: tokenInfo.id },
+      raw: true,
+    });
+    await Models.comments.create({
+      user_id: userInfo?.id,
+      username: userInfo?.username,
+      user_avatar_url: userInfo?.avatar_url,
+      photo_id: photoId,
       type,
       content,
-      commentLevel,
-      parentCommentId,
-      parentCommentUserId,
-      replyCommentId,
-      replyCommentUserId,
-    );
+      comment_level: commentLevel,
+      parent_comment_id: parentCommentId,
+      parent_comment_user_id: parentCommentUserId,
+      reply_comment_id: replyCommentId,
+      reply_comment_user_id: replyCommentUserId,
+    });
 
     return {
       retCode: '0',
-      data: { id: result?.insertId },
     };
   }
 
   // 删除照片评论
   @Post('/delete-photo-comment')
-  async deletePhotoComment(@Body() data: DeletePhotoCommentRequest): Promise<DeletePhotoCommentResponse> {
+  async deletePhotoComment(
+    @Body() data: DeletePhotoCommentRequest,
+  ): Promise<DeletePhotoCommentResponse> {
     const { id } = data || {};
     if (_.isNil(id)) {
       return { retCode: '-1', message: '参数错误' };
     }
-    const result = await CommentModel.deletePhotoComment(
-     id
-    );
+    await Models.comments.destroy({
+      where: { id },
+    });
 
     return {
       retCode: '0',
-      data: { id: result?.insertId },
     };
   }
 }
